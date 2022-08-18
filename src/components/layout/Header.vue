@@ -3,8 +3,8 @@
         <v-system-bar window dark>
             <v-list dense class="d-flex pa-0" color="transparent">
                 <v-list-item class="pa-0">
-                    <v-list-item-icon class="mr-1">
-                        <v-icon small right>
+                    <v-list-item-icon class="mx-1 ml-0">
+                        <v-icon small right class="mr-0">
                             mdi-phone
                         </v-icon>
                     </v-list-item-icon>
@@ -13,8 +13,8 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="pa-0">
-                    <v-list-item-icon class="mr-1">
-                        <v-icon small right>
+                    <v-list-item-icon class="mx-1">
+                        <v-icon small right class="mr-0">
                             mdi-map-marker
                         </v-icon>
                     </v-list-item-icon>
@@ -23,8 +23,8 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="pa-0">
-                    <v-list-item-icon class="mr-1">
-                        <v-icon small right>
+                    <v-list-item-icon class="mx-1">
+                        <v-icon small right class="mr-0">
                             mdi-clock-time-five
                         </v-icon>
                     </v-list-item-icon>
