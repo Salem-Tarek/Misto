@@ -1,55 +1,57 @@
 <template>
-  <nav>
-    <v-app-bar flat style="border-bottom: 1px solid #121212">
-        <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-md-none"></v-app-bar-nav-icon>
-        <div class="bar-content d-flex align-center justify-space-between" style="width: 100%">
-            <v-toolbar-title class="display-1 font-weight-bold">
-                <router-link to="/">Mi<span class="text-uppercase">s</span>to</router-link>
-            </v-toolbar-title>
-            <ul class="list-unstyled d-none d-md-flex">
-                <li class="mx-3">
-                    <router-link to="/about">AboutUs</router-link>
-                </li>
-                <li class="mx-3">
-                    <router-link to="/women">Women</router-link>
-                </li>
-                <li class="mx-3">
-                    <router-link to="/men">Men</router-link>
-                </li>
-                <li class="mx-3">
-                    <router-link to="/electronics">Electronics</router-link>
-                </li>
-                <li class="mx-3">
-                    <router-link to="/jewelery">Jewelery</router-link>
-                </li>
-                <li class="mx-3">
-                    <router-link to="/blog">Blog</router-link>
-                </li>
-                <li class="mx-3">
-                    <router-link to="/contact">Contact</router-link>
-                </li>
-            </ul>
-            <div class="icons">
-                <v-btn icon width="42">
-                    <v-icon>mdi-magnify</v-icon>
-                </v-btn>
-                <v-btn icon width="42">
-                    <v-icon>mdi-account</v-icon>
-                </v-btn>
-                <v-badge
-                :color="cartNum ? 'black' : 'transparent'"
-                overlap
-                :content="cartNum ? cartNum : ''"
-                >
-                    <v-btn icon @click="cart = true" width="42">
-                        <v-icon>mdi-cart</v-icon>
+  <nav style="border-bottom: 1px solid #121212">
+    <v-container class="py-0">
+        <v-app-bar flat>
+            <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-md-none"></v-app-bar-nav-icon>
+            <div class="bar-content d-flex align-center justify-space-between" style="width: 100%">
+                <v-toolbar-title class="display-1 font-weight-bold">
+                    <router-link to="/">Mi<span class="text-uppercase">s</span>to</router-link>
+                </v-toolbar-title>
+                <ul class="list-unstyled d-none d-md-flex">
+                    <li class="mx-3">
+                        <router-link to="/about">AboutUs</router-link>
+                    </li>
+                    <li class="mx-3">
+                        <router-link to="/women">Women</router-link>
+                    </li>
+                    <li class="mx-3">
+                        <router-link to="/men">Men</router-link>
+                    </li>
+                    <li class="mx-3">
+                        <router-link to="/electronics">Electronics</router-link>
+                    </li>
+                    <li class="mx-3">
+                        <router-link to="/jewelery">Jewelery</router-link>
+                    </li>
+                    <li class="mx-3">
+                        <router-link to="/blog">Blog</router-link>
+                    </li>
+                    <li class="mx-3">
+                        <router-link to="/contact">Contact</router-link>
+                    </li>
+                </ul>
+                <div class="icons">
+                    <v-btn icon width="42">
+                        <v-icon>mdi-magnify</v-icon>
                     </v-btn>
-                </v-badge>
-                
+                    <v-btn icon width="42">
+                        <v-icon>mdi-account</v-icon>
+                    </v-btn>
+                    <v-badge
+                    :color="cartNum ? 'black' : 'transparent'"
+                    overlap
+                    :content="cartNum ? cartNum : ''"
+                    >
+                        <v-btn icon @click="cart = true" width="42">
+                            <v-icon>mdi-cart</v-icon>
+                        </v-btn>
+                    </v-badge>
+                    
+                </div>
             </div>
-        </div>
-        
-    </v-app-bar>
+            
+        </v-app-bar>
+    </v-container>
     <v-navigation-drawer v-model="drawer" absolute temporary>
         <div class="text-center display-1 my-3 font-weight-bold">Mi<span class="text-uppercase">s</span>to</div>
         <v-divider></v-divider>
@@ -173,11 +175,11 @@
             <v-list-item class="remove-after-pseudo-element pt-3 mt-auto rounded-0 px-3 flex-column">
                 <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
                     <p class="subtitle-1 grey--text text--darken-2">Total</p>
-                    <p class="headline">$350.00</p>
+                    <p class="headline">$ 350.00</p>
                 </v-list-item-title>
                 <v-list-item-action class="mx-auto" style="width:80%">
-                    <v-btn dark class="text-uppercase mb-3" block>Check out</v-btn>
-                    <v-btn class="text-uppercase" depressed block to="/cartPage">View Cart</v-btn>
+                    <v-btn dark class="text-uppercase mb-3 rounded-0" block>Check out</v-btn>
+                    <v-btn class="text-uppercase rounded-0" depressed block to="/cartPage">View Cart</v-btn>
                 </v-list-item-action>
             </v-list-item>
         </v-list>
