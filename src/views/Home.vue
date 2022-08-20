@@ -7,6 +7,7 @@
       <Men />
       <OffersAndCollections />
       <Subscribe />
+      <LatestBlogs />
     </v-container>
   </div>
 </template>
@@ -18,6 +19,7 @@ import Women from '../components/HomePage/Women.vue'
 import Men from '../components/HomePage/Men.vue'
 import OffersAndCollections from '../components/HomePage/OffersAndCollections.vue'
 import Subscribe from '../components/HomePage/Subscribe.vue'
+import LatestBlogs from '../components/HomePage/LatestBlogs.vue'
 export default {
   name: "Home",
   components:{
@@ -26,7 +28,8 @@ export default {
     Women,
     Men,
     OffersAndCollections,
-    Subscribe
+    Subscribe,
+    LatestBlogs
   }
 };
 </script>
