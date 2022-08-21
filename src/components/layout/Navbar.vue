@@ -130,6 +130,8 @@
                                 dense
                                 flat
                                 hide-details
+                                type="number"
+                                hide-spin-buttons
                                 height="30"
                                 ></v-text-field>
                                 <v-icon @click="amount++">mdi-plus</v-icon>

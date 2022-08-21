@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .subscribe {
     background-image: linear-gradient(white, #cdcdcd);
 }

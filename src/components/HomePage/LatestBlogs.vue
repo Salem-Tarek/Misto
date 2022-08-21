@@ -4,8 +4,8 @@
         <p class="text-uppercase text-sm-h4 text-subtitle-1 mb-4">Latest From Blog</p>
         <v-btn to="/blogs" class="text-uppercase text-sm-button text-caption mt-6 mb-12" elevation="0" disabled>See More</v-btn>
     </div>
-    <v-row>
-        <v-col cols="12" md="4" class="py-0">
+    <v-row justify="center">
+        <v-col cols="12" sm="6" md="4" class="py-0">
             <v-card elevation="0">
                 <v-img contain src="../../assets/blog1.jpg"></v-img>
                 <div class="card-content white">
@@ -16,7 +16,7 @@
                 </div>
             </v-card>
         </v-col>
-        <v-col cols="12" md="4" class="py-0">
+        <v-col cols="12" sm="6" md="4" class="py-0">
             <v-card elevation="0">
                 <v-img contain src="../../assets/blog1.jpg"></v-img>
                 <div class="card-content white">
@@ -27,7 +27,7 @@
                 </div>
             </v-card>
         </v-col>
-        <v-col cols="12" md="4" class="py-0">
+        <v-col cols="12" sm="6" md="4" class="py-0">
             <v-card elevation="0">
                 <v-img contain src="../../assets/blog1.jpg"></v-img>
                 <div class="card-content white">
