@@ -1,6 +1,6 @@
 <template>
-  <nav style="border-bottom: 1px solid #121212">
-    <v-container class="py-0">
+  <nav>
+    <v-container class="py-0 px-0">
         <v-app-bar flat>
             <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-md-none"></v-app-bar-nav-icon>
             <div class="bar-content d-flex align-center justify-space-between" style="width: 100%">
@@ -31,10 +31,10 @@
                     </li>
                 </ul>
                 <div class="icons">
-                    <v-btn icon width="42" @click="searchDrawer = true">
+                    <v-btn icon width="30" @click="searchDrawer = true">
                         <v-icon>mdi-magnify</v-icon>
                     </v-btn>
-                    <v-btn icon width="42" @click="logInDrawer = true">
+                    <v-btn icon width="30" @click="logInDrawer = true">
                         <v-icon>mdi-account</v-icon>
                     </v-btn>
                     <v-badge
@@ -42,8 +42,17 @@
                     overlap
                     :content="cartNum ? cartNum : ''"
                     >
-                        <v-btn icon @click="cart = true" width="42">
+                        <v-btn icon @click="cart = true" width="30">
                             <v-icon>mdi-cart</v-icon>
+                        </v-btn>
+                    </v-badge>
+                    <v-badge
+                    :color="favNum ? 'black' : 'transparent'"
+                    overlap
+                    :content="favNum ? favNum : ''"
+                    >
+                        <v-btn icon @click="FavDrawer = true" width="30">
+                            <v-icon>mdi-heart</v-icon>
                         </v-btn>
                     </v-badge>
                     
@@ -305,46 +314,107 @@
             <v-list-item class="remove-after-pseudo-element">
                 <v-list-item-title class="font-weight-medium">Searched Products :</v-list-item-title>
             </v-list-item>
-            <v-list-item :ripple="false" class="mb-0">
-                <v-list-item-avatar tile size="80">
-                    <v-img src="../../assets/cartImg1.png"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content class="align-flex-start mt-1">
-                    <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
-                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item :ripple="false" class="mb-0">
-                <v-list-item-avatar tile size="80">
-                    <v-img src="../../assets/prod1.jpg"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content class="align-flex-start mt-1">
-                    <v-list-item-title class="subtitle-1 grey--text">Women's T-Shirt</v-list-item-title>
-                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$36.00</v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
+            <router-link to="/product-page">
+                <v-list-item :ripple="false" class="mb-0">
+                        <v-list-item-avatar tile size="80">
+                            <v-img src="../../assets/cartImg1.png"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content class="align-self-start pt-2">
+                            <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
+                            <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
+                        </v-list-item-content>
+                </v-list-item>
+            </router-link>
+            <router-link to="/product-page">
+                <v-list-item :ripple="false" class="mb-0">
+                        <v-list-item-avatar tile size="80">
+                            <v-img src="../../assets/prod1.jpg"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content class="align-self-start pt-2">
+                            <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
+                            <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
+                        </v-list-item-content>
+                </v-list-item>
+            </router-link>
         </v-list>
         <div class="divider-line mx-auto"></div>
         <h4 class="ma-2 ml-5 font-weight-medium">Need Some Inspiration ?</h4>
         <v-list class="d-flex flex-column pa-0 my-3">
-            <v-list-item :ripple="false" class="mb-0">
-                <v-list-item-avatar tile size="80">
-                    <v-img src="../../assets/cartImg1.png"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content class="align-flex-start mt-1">
-                    <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
-                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
-                </v-list-item-content>
+            <router-link to="/product-page">
+                <v-list-item :ripple="false" class="mb-0">
+                        <v-list-item-avatar tile size="80">
+                            <v-img src="../../assets/cartImg1.png"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content class="align-self-start pt-2">
+                            <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
+                            <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
+                        </v-list-item-content>
+                </v-list-item>
+            </router-link>
+            <router-link to="/product-page">
+                <v-list-item :ripple="false" class="mb-0">
+                        <v-list-item-avatar tile size="80">
+                            <v-img src="../../assets/prod1.jpg"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content class="align-self-start pt-2">
+                            <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
+                            <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
+                        </v-list-item-content>
+                </v-list-item>
+            </router-link>
+        </v-list>
+    </v-navigation-drawer>
+    <!-- Favourite Navigation Drawer -->
+    <v-navigation-drawer
+    class="favourite-drawer"
+    v-model="FavDrawer"
+    app
+    right
+    temporary
+    width="330"
+    >
+        <v-list dense class="d-flex flex-column pa-0">
+            <v-list-item class="remove-after-pseudo-element mb-0 rounded-0 black white--text px-3 d-flex justify-space-between">
+                <h3 class="font-weight-medium text-uppercase">Favourite List</h3>
+                <v-list-item-action>
+                    <v-icon color="white" @click="FavDrawer = false">mdi-close</v-icon>
+                </v-list-item-action>
             </v-list-item>
-            <v-list-item :ripple="false" class="mb-0">
-                <v-list-item-avatar tile size="80">
-                    <v-img src="../../assets/prod1.jpg"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content class="align-flex-start mt-1">
-                    <v-list-item-title class="subtitle-1 grey--text">Women's T-Shirt</v-list-item-title>
-                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$36.00</v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
+            <v-divider></v-divider>
+        </v-list>
+        <v-list class="d-flex flex-column pa-0 mb-3">
+            <router-link to="/product-page">
+                <v-list-item :ripple="false" class="mb-0">
+                    <v-list-item-avatar tile size="80">
+                        <v-img src="../../assets/cartImg1.png"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
+                        <v-list-item-subtitle class="black--text mb-5">Women</v-list-item-subtitle>
+                        <div class="cart-item-info d-flex justify-space-between align-center">
+                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">$159.9</p>
+                            <v-spacer></v-spacer>
+                            <v-icon>mdi-trash-can-outline</v-icon>
+                        </div>
+                    </v-list-item-content>
+                </v-list-item>
+            </router-link>
+            <router-link to="/product-page">
+                <v-list-item :ripple="false" class="mb-0">
+                    <v-list-item-avatar tile size="80">
+                        <v-img src="../../assets/prod1.jpg"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title class="subtitle-1 grey--text">Women T-shirt</v-list-item-title>
+                        <v-list-item-subtitle class="black--text mb-5">Women</v-list-item-subtitle>
+                        <div class="cart-item-info d-flex justify-space-between align-center">
+                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">$159.9</p>
+                            <v-spacer></v-spacer>
+                            <v-icon>mdi-trash-can-outline</v-icon>
+                        </div>
+                    </v-list-item-content>
+                </v-list-item>
+            </router-link>
         </v-list>
     </v-navigation-drawer>
   </nav>
@@ -357,9 +427,12 @@ export default {
         return {
             drawer: false,
             cartNum: 2,
+            favNum: 2,
             cart: false,
+            favourite: false,
             logInDrawer: false,
             searchDrawer: false,
+            FavDrawer: false,
             email:"",
             password:"",
             search:"",
@@ -384,10 +457,6 @@ export default {
     background-color: grey;
 }
 
-.v-toolbar__content {
-    padding: 8px;
-}
-
 .bar-content .v-toolbar__title a{
     text-decoration: none;
     color: #121212;
@@ -405,7 +474,7 @@ export default {
     color: #0BB17F
 }
 .v-badge__badge {
-    inset: auto auto calc(100% - 18px) calc(100% - 20px) !important;
+    inset: auto auto calc(100% - 17px) calc(100% - 13px) !important;
 }
 
 .remove-after-pseudo-element::after{
@@ -440,7 +509,7 @@ export default {
     font-weight:400;
 }
 
-.divider-line {
+.search-drawer .divider-line {
     width:90%
 }
 

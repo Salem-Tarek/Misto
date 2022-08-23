@@ -2,7 +2,7 @@
   <div class="products">
     <v-row>
         <v-col cols="12" sm="6" md="4" lg="3" v-for="i in 8" :key="i">
-            <router-link to="/productPage">
+            <router-link to="/product-page">
                     <v-card class="mx-auto" max-width="374" elevation="0">
                         <v-img
                         height="250"
