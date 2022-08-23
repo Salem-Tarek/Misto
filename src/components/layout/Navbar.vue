@@ -31,10 +31,10 @@
                     </li>
                 </ul>
                 <div class="icons">
-                    <v-btn icon width="42">
+                    <v-btn icon width="42" @click="searchDrawer = true">
                         <v-icon>mdi-magnify</v-icon>
                     </v-btn>
-                    <v-btn icon width="42">
+                    <v-btn icon width="42" @click="logInDrawer = true">
                         <v-icon>mdi-account</v-icon>
                     </v-btn>
                     <v-badge
@@ -186,6 +186,167 @@
             </v-list-item>
         </v-list>
     </v-navigation-drawer>
+    <!-- LogIn Navigation Drawer -->
+    <v-navigation-drawer
+    class="logIn-drawer"
+    v-model="logInDrawer"
+    app
+    right
+    temporary
+    width="330"
+    >
+        <v-list nav dense class="d-flex flex-column pa-0" min-height="100%">
+            <v-list-item class="remove-after-pseudo-element mb-0 rounded-0 black white--text px-3 d-flex justify-space-between">
+                <h3 class="font-weight-bold text-uppercase">LogIn</h3>
+                <v-list-item-action>
+                    <v-icon color="white" @click="logInDrawer = false">mdi-close</v-icon>
+                </v-list-item-action>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item :ripple="false" class="mb-0 px-1">
+                <v-list-item-title class="body-2 grey--text text--darken-2 text-center">If you have an account with us, please log in.</v-list-item-title>
+            </v-list-item>
+            <v-list-item class="justify-center">
+                <form>
+                    <label class="font-weight-bold subtitle-1">Email</label>
+                    <v-text-field
+                    v-model="email"
+                    placeholder="Email"
+                    required
+                    solo
+                    class="mx-auto"
+                    ></v-text-field>
+                    <div class="forPass d-flex justify-space-between align-center">
+                        <label class="font-weight-bold subtitle-1">password</label>
+                        <span class="caption grey--text font-weight-medium">Lost Your Password ?</span>
+                    </div>
+                    <v-text-field
+                    v-model="password"
+                    placeholder="Password"
+                    type="password"
+                    required
+                    solo
+                    class="mx-auto"
+                    ></v-text-field>
+                    <v-btn dark class="text-uppercase mb-3 mr-4 rounded-0" block type="submit">LogIn</v-btn>
+                </form>
+            </v-list-item>
+            <v-list-item class="justify-center login-or">
+                <div class="dividers-parent d-flex align-center">
+                    <div class="divider-line"></div>
+                    <div class="px-2 white grey--text text--darken-2">or</div>
+                    <div class="divider-line"></div>
+                </div>
+            </v-list-item>
+            <v-list-item class="justify-center mt-3">
+                <v-list class="d-flex justify-center">
+                    <v-list-item>
+                        <v-list-item-icon class="ma-0 mx-2">
+                            <v-icon x-large>mdi-facebook</v-icon>
+                        </v-list-item-icon>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-icon class="ma-0 mx-2">
+                            <v-icon x-large>mdi-google</v-icon>
+                        </v-list-item-icon>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-icon class="ma-0 mx-2">
+                            <v-icon x-large style="transform: translateY(-4px);">mdi-apple</v-icon>
+                        </v-list-item-icon>
+                    </v-list-item>
+                </v-list>
+            </v-list-item>
+            <!-- Don't Have Account Question Section -->
+            <v-list-item class="remove-after-pseudo-element py-12 mt-auto rounded-0 px-3 flex-column-reverse">
+                <v-list-item-title class="title">
+                    <router-link to="/signUp">Create Your Account</router-link>  
+                </v-list-item-title>   
+                <v-list-item-subtitle class="mb-8 subtitle-1 font-weight-normal">New Customer ?</v-list-item-subtitle>   
+            </v-list-item>
+        </v-list>
+    </v-navigation-drawer>
+    <!-- Search Navigation Drawer -->
+    <v-navigation-drawer
+    class="search-drawer"
+    v-model="searchDrawer"
+    app
+    right
+    temporary
+    width="330"
+    >
+        <v-list dense class="d-flex flex-column pa-0">
+            <v-list-item class="remove-after-pseudo-element mb-0 rounded-0 black white--text px-3 d-flex justify-space-between">
+                <h3 class="font-weight-bold text-uppercase">Search</h3>
+                <v-list-item-action>
+                    <v-icon color="white" @click="searchDrawer = false">mdi-close</v-icon>
+                </v-list-item-action>
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item class="mt-3">
+                <v-select
+                v-model="categories[selectCategory]"
+                :items="categories"
+                cache-items
+                solo
+                ></v-select>
+            </v-list-item>
+            <v-list-item>
+                <v-text-field
+                v-model="search"
+                solo
+                placeholder="What are you Looking for ?"
+                append-icon="mdi-magnify"
+                ></v-text-field>
+            </v-list-item>
+        </v-list>
+        <div class="divider-line mx-auto"></div>
+        <v-list class="d-flex flex-column pa-0 mb-3">
+            <v-list-item class="remove-after-pseudo-element">
+                <v-list-item-title class="font-weight-medium">Searched Products :</v-list-item-title>
+            </v-list-item>
+            <v-list-item :ripple="false" class="mb-0">
+                <v-list-item-avatar tile size="80">
+                    <v-img src="../../assets/cartImg1.png"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content class="align-flex-start mt-1">
+                    <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
+                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item :ripple="false" class="mb-0">
+                <v-list-item-avatar tile size="80">
+                    <v-img src="../../assets/prod1.jpg"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content class="align-flex-start mt-1">
+                    <v-list-item-title class="subtitle-1 grey--text">Women's T-Shirt</v-list-item-title>
+                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$36.00</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
+        <div class="divider-line mx-auto"></div>
+        <h4 class="ma-2 ml-5 font-weight-medium">Need Some Inspiration ?</h4>
+        <v-list class="d-flex flex-column pa-0 my-3">
+            <v-list-item :ripple="false" class="mb-0">
+                <v-list-item-avatar tile size="80">
+                    <v-img src="../../assets/cartImg1.png"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content class="align-flex-start mt-1">
+                    <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
+                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$159.90</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item :ripple="false" class="mb-0">
+                <v-list-item-avatar tile size="80">
+                    <v-img src="../../assets/prod1.jpg"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content class="align-flex-start mt-1">
+                    <v-list-item-title class="subtitle-1 grey--text">Women's T-Shirt</v-list-item-title>
+                    <v-list-item-subtitle class="subtitle-1 font-weight-bold black--text">$36.00</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
+    </v-navigation-drawer>
   </nav>
 </template>
 
@@ -197,6 +358,13 @@ export default {
             drawer: false,
             cartNum: 2,
             cart: false,
+            logInDrawer: false,
+            searchDrawer: false,
+            email:"",
+            password:"",
+            search:"",
+            selectCategory: 0,
+            categories: ["All Categories", "Electronics", "Men", "Women", "Jewelery"],
             amount: 1 //Untill we add data
         }
     },
@@ -208,6 +376,12 @@ export default {
     list-style:none;
     padding:0;
     margin:0
+}
+
+.divider-line {
+    height:1px;
+    width:120px;
+    background-color: grey;
 }
 
 .v-toolbar__content {
@@ -251,5 +425,26 @@ export default {
 }
 .v-list-item {
     flex: 0
+}
+
+.logIn-drawer .v-input {
+    width: 280px;
+}
+
+.logIn-drawer .v-text-field input,
+.search-drawer .v-text-field input {
+    text-align: left;
+}
+
+.logIn-drawer .v-list .v-list-item a {
+    font-weight:400;
+}
+
+.divider-line {
+    width:90%
+}
+
+.search-drawer .v-list .v-list-item .v-text-field .v-input__control > .v-input__slot {
+    box-shadow: none;
 }
 </style>
