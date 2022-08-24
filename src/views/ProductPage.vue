@@ -235,6 +235,10 @@ export default {
     padding:0 4px !important;
 }
 
+.productPage .v-list-item {
+    max-width: fit-content;
+}
+
 .v-list-item.v-item--active {
     background-color:rgba(0, 0, 0, 0.3)
 }

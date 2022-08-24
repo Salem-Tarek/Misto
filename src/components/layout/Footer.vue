@@ -264,9 +264,12 @@ export default {
         }
     }
     .lower-footer {
+        .v-list-item {
+            max-width: fit-content;
+        }
         a {
             color: black
-        }
+        }   
     }
 }
 
