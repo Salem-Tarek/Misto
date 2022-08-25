@@ -1,5 +1,4 @@
 <template>
-  <main>
     <v-container class="pt-0">
         <div class="productPage">
             <div class="breadcrumb_share d-flex justify-space-between align-center">
@@ -117,7 +116,7 @@
                             </div>
                         </v-col>
                     </v-row>
-                    <div class="pay-methods">
+                    <div class="pay-methods mb-5">
                         <div class="d-flex align-center">
                             <p class="text-caption text-sm-body-2 text-uppercase mb-0 mr-3">guaranteed safe checkout</p>
                             <div class="divider-line"></div>
@@ -146,6 +145,62 @@
                             </v-list-item>
                         </v-list>
                     </div>
+                    <v-divider></v-divider>
+                    <div class="description my-5">
+                        <p class="subtitle-1 grey--text mb-2">Description</p>
+                        <p class="subtitle-2 grey--text text--darken-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum, beatae, dolorum harum ducimus illum at numquam odio dolores incidunt autem nobis? Laudantium sed aspernatur itaque magnam accusantium, eos adipisci accusamus.</p>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="additional_information my-5">
+                        <p class="subtitle-2 text-uppercase grey--text text--darken-4">Additional Information</p>
+                        <p class="grey--text"><span class="grey--text text--darken-4">Color:</span> Black, White, Blue, Grey</p>
+                        <p class="grey--text"><span class="grey--text text--darken-4">Size:</span> XS, S, M, L</p>
+                        <p class="grey--text"><span class="grey--text text--darken-4">Material:</span> 100% Polyester</p>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="reviews my-5">
+                        <p class="subtitle-2 text-uppercase grey--text text--darken-4 mb-0">Reviews</p>
+                        <div class="rating d-flex justify-space-between align-center">
+                            <div class="d-flex align-center">
+                                <v-rating
+                                :value="4.5"
+                                color="amber"
+                                dense
+                                half-increments
+                                readonly
+                                size="12"
+                                ></v-rating>
+                                <div class="grey--text ms-2 caption">
+                                    2 Reviews
+                                </div>
+                            </div>
+                            <div class="d-flex align-center">
+                                <v-icon right small>mdi-message-text-outline</v-icon>
+                                <v-text-field hide-details placeholder="Write a review" solo></v-text-field>
+                            </div>
+                        </div>
+                        <div class="reviews-wrapper">
+                            <div class="review mb-7" v-for="i in 2" :key="i">
+                                <div class="review-header mb-2 d-flex justify-space-between align-center">
+                                    <p class="text-grey text--darken-3 grey--text mb-0">Oleh Chabanov</p>
+                                    <div class="rating_time d-flex align-center">
+                                        <span class="grey--text caption">3 monthes ago</span>
+                                        <v-rating
+                                        :value="4.5"
+                                        color="amber"
+                                        dense
+                                        half-increments
+                                        readonly
+                                        size="12"
+                                        ></v-rating>
+                                    </div>
+                                </div>
+                                <p class="grey--text body-2">On the other hand, we denounce with righteous indignation and like men who are so beguiled and demoralized by the charms of pleasure of the moment</p>
+                            </div>
+                        </div>
+                    </div>
+                    <v-divider></v-divider>
+                    
                 </v-col>
             </v-row>
             <div class="related_products my-4">
@@ -189,7 +244,6 @@
             </div>
         </div>
     </v-container>
-  </main>
 </template>
 
 <script>
@@ -244,5 +298,16 @@ export default {
 }
 .divider-line {
     width:50%
+}
+
+.v-input input {
+    width: 100px;
+}
+
+.reviews .v-input .v-input__control > .v-input__slot {
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+    padding-left: 4px !important;
+    padding-right: 0 !important;
 }
 </style>

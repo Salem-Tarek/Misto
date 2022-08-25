@@ -251,13 +251,16 @@ export default {
             border: 1px solid #FFF !important;
         }
         .social-icons {
-            a {
-                text-decoration: none;
-                .v-icon {
-                    transition: 0.4s;
-                    color:#fff !important;
-                    &:hover {
-                        color: gray !important;
+            .v-list-item {
+                max-width: fit-content;
+                a {
+                    text-decoration: none;
+                    .v-icon {
+                        transition: 0.4s;
+                        color:#fff !important;
+                        &:hover {
+                            color: gray !important;
+                        }
                     }
                 }
             }

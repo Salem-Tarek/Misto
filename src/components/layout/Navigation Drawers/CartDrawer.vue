@@ -81,12 +81,28 @@
             <!-- Total Cost Section -->
             <v-list-item class="remove-after-pseudo-element pt-3 mt-auto rounded-0 px-3 flex-column">
                 <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
+                    <p class="subtitle-1 grey--text text--darken-2 mb-0">Tax</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ 50.00</p>
+                </v-list-item-title>
+                <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
+                    <p class="subtitle-1 grey--text text--darken-2 mb-0">Shipping</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ 100.00</p>
+                </v-list-item-title>
+                <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
+                    <p class="subtitle-1 grey--text text--darken-2 mb-0">Discount</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ 200.00</p>
+                </v-list-item-title>
+                <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
+                    <p class="subtitle-1 grey--text text--darken-2 mb-0">Cart Total</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ 350.00</p>
+                </v-list-item-title>
+                <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
                     <p class="subtitle-1 grey--text text--darken-2">Total</p>
                     <p class="headline">$ 350.00</p>
                 </v-list-item-title>
                 <v-list-item-action class="mx-auto" style="width:80%">
                     <v-btn dark class="text-uppercase mb-3 rounded-0" block>Check out</v-btn>
-                    <v-btn class="text-uppercase rounded-0" depressed block to="/cartPage">View Cart</v-btn>
+                    <v-btn class="text-uppercase rounded-0" depressed block to="/cart-page">View Cart</v-btn>
                 </v-list-item-action>
             </v-list-item>
         </v-list>
@@ -138,15 +154,12 @@ export default {
     display: none;
 }
 
-.cart-drawer .v-input {
-    width:  50px;
-}
-
 .cart-drawer .v-input input {
     text-align: center;
+    width: 30px;
 }
 
-.v-list .v-list-item a:hover {
+.cart-drawer .v-list .v-list-item a:hover {
     color: #0BB17F
 }
 
