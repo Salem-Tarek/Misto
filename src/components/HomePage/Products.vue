@@ -38,6 +38,51 @@
                         </v-card-text>
                     </v-card>
             </router-link>
+            <div class="product-details">
+                <!-- <div class="color mb-2">
+                    <v-list dense class="pt-0">
+                        <v-list-item-group
+                            class="d-flex"
+                        >
+                            <v-list-item
+                            v-for="(color, i) in colors"
+                            :key="i"
+                            :class="color"
+                            class="mx-1"
+                            ></v-list-item>
+                        </v-list-item-group>
+                    </v-list>
+                </div>
+                <div class="size mb-2">
+                    <v-list dense class="pt-0">
+                        <v-list-item-group
+                            class="d-flex"
+                        >
+                            <v-list-item
+                            v-for="(size, i) in sizes"
+                            :key="i"
+                            class="mx-1 px-2"
+                            style="border:1px solid #000"
+                            >{{ size }}</v-list-item>
+                        </v-list-item-group>
+                    </v-list>
+                </div> -->
+                <div class="price_addToCart_Fav d-flex align-center my-2 justify-space-between">
+                    <v-btn dark tile class="mr-3">Add To Cart</v-btn>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                            v-bind="attrs"
+                            v-on="on"
+                            :class="{'red--text': isFav}"
+                            @click="isFav = !isFav"
+                            v-text="isFav ? 'mdi-heart' : 'mdi-heart-outline'" 
+                            ></v-icon>
+                        </template>
+                        <span>{{ !isFav ? 'Add To' : 'Remove From' }} Favourite List</span>
+                    </v-tooltip>
+                </div>
+            </div>
         </v-col>
     </v-row>
   </div>
@@ -46,6 +91,13 @@
 <script>
 export default {
     name: "Products",
+    data(){
+        return {
+            colors:['black', 'white', 'blue', 'grey'],
+            sizes:['XS', 'S', 'M', 'L'],
+            isFav: false
+        }
+    }
 }
 </script>
 
@@ -60,5 +112,9 @@ export default {
 
 a{
     text-decoration: none
+}
+
+.product-details .v-list .v-list-item {
+    max-width:fit-content;
 }
 </style>

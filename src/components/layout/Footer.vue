@@ -186,7 +186,7 @@
                 </v-row>
             </v-container>
         </div>
-        <div class="lower-footer pt-3">
+        <div class="lower-footer py-3">
             <v-container>
                 <v-row align="center">
                     <v-col cols="12" lg="4" class="py-0">

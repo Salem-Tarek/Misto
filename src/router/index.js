@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import ProductPage from "../views/ProductPage.vue";
 import CartPage from "../views/CartPage.vue";
+import AboutPage from "../views/AboutPage.vue";
+import ContactPage from "../views/ContactPage.vue";
 
 Vue.use(VueRouter);
 
@@ -11,6 +13,16 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/about",
+    name: "AboutPage",
+    component: AboutPage,
+  },
+  {
+    path: "/contact",
+    name: "ContactPage",
+    component: ContactPage,
   },
   {
     path: "/product-page",
