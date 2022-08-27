@@ -1,7 +1,8 @@
 <template>
-  <div class="products">
+  <div class="products py-5">
+    <ProductsFilter v-if="ShowFilter" />
     <v-row>
-        <v-col cols="12" sm="6" md="4" lg="3" v-for="i in 8" :key="i">
+        <v-col cols="12" sm="6" md="4" lg="3" v-for="i in prodsArrayLength" :key="i">
             <router-link to="/product-page">
                     <v-card class="mx-auto" max-width="374" elevation="0">
                         <v-img
@@ -31,7 +32,7 @@
                                 size="14"
                                 ></v-rating>
 
-                                <div class="grey--text ms-2">
+                                <div class="grey--text ms-2" v-if="ShowRatingNumber">
                                     4.5 (413)
                                 </div>
                             </div>
@@ -89,6 +90,7 @@
 </template>
 
 <script>
+import ProductsFilter from './ProductsFilter.vue'
 export default {
     name: "Products",
     data(){
@@ -97,6 +99,26 @@ export default {
             sizes:['XS', 'S', 'M', 'L'],
             isFav: false
         }
+    },
+    props:{
+        prodsArray: {
+            type: Array
+        },
+        prodsArrayLength: {
+            type: Number,
+            default: 8
+        },
+        ShowRatingNumber: {
+            type: Boolean,
+            default: true
+        },
+        ShowFilter: {
+            type: Boolean,
+            default: true
+        },
+    },
+    components:{
+        ProductsFilter
     }
 }
 </script>

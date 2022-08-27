@@ -7,29 +7,32 @@
                 <v-toolbar-title class="display-1 font-weight-bold">
                     <router-link to="/">Mi<span class="text-uppercase">s</span>to</router-link>
                 </v-toolbar-title>
-                <ul class="list-unstyled d-none d-md-flex">
-                    <li class="mx-3">
+                <v-list class="d-none d-md-flex">
+                    <v-list-item class="mx-3 px-0">
+                        <router-link to="/">Home</router-link>
+                    </v-list-item>
+                    <v-list-item class="mx-3 px-0">
                         <router-link to="/about">AboutUs</router-link>
-                    </li>
-                    <li class="mx-3">
+                    </v-list-item>
+                    <v-list-item class="mx-3 px-0">
                         <router-link to="/women">Women</router-link>
-                    </li>
-                    <li class="mx-3">
+                    </v-list-item>
+                    <v-list-item class="mx-3 px-0">
                         <router-link to="/men">Men</router-link>
-                    </li>
-                    <li class="mx-3">
+                    </v-list-item>
+                    <v-list-item class="mx-3 px-0">
                         <router-link to="/electronics">Electronics</router-link>
-                    </li>
-                    <li class="mx-3">
+                    </v-list-item>
+                    <v-list-item class="mx-3 px-0">
                         <router-link to="/jewelery">Jewelery</router-link>
-                    </li>
-                    <li class="mx-3">
+                    </v-list-item>
+                    <!-- <v-list-item class="mx-3 px-0" disabled>
                         <router-link to="/blog">Blog</router-link>
-                    </li>
-                    <li class="mx-3">
+                    </v-list-item> -->
+                    <v-list-item class="mx-3 px-0">
                         <router-link to="/contact">Contact</router-link>
-                    </li>
-                </ul>
+                    </v-list-item>
+                </v-list>
                 <div class="icons">
                     <v-btn icon width="30" @click="SearchNavigationDrawerProp = true">
                         <v-icon>mdi-magnify</v-icon>

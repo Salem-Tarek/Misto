@@ -44,7 +44,7 @@
                             height="200"
                         >
                             <v-img src="../../assets/categories/jewelery.jpg" class="fill-height"></v-img>
-                            <v-btn to="/electronics" color="white black--text">jewelery</v-btn>
+                            <v-btn to="/jewelery" color="white black--text">jewelery</v-btn>
                         </v-card>
                     </v-col>
                 </v-row>

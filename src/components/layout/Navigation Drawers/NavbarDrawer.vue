@@ -8,6 +8,11 @@
             >
                 <v-list-item>
                     <v-list-item-title class="subtitle-1">
+                        <router-link to="/">Home</router-link>
+                    </v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                    <v-list-item-title class="subtitle-1">
                         <router-link to="/about">AboutUs</router-link>
                     </v-list-item-title>
                 </v-list-item>
@@ -31,11 +36,11 @@
                         <router-link to="/jewelery">Jewelery</router-link>
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <!-- <v-list-item disabled>
                     <v-list-item-title class="subtitle-1">
                         <router-link to="/blog">Blog</router-link>
                     </v-list-item-title>
-                </v-list-item>
+                </v-list-item> -->
                 <v-list-item>
                     <v-list-item-title class="subtitle-1">
                         <router-link to="/contact">Contact</router-link>

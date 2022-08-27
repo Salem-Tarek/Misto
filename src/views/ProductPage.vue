@@ -35,8 +35,11 @@
                 </div>
             </div>
             <v-row>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" style="position: relative">
                     <v-img max-height="470px" contain lazy-src="../assets/prod1.jpg"></v-img>
+                    <div class="pink white--text sale font-weight-medium d-flex justify-center align-center">
+                        - 50%
+                    </div>
                 </v-col>
                 <v-col cols="12" md="6">
                     <div class="color mb-2">
@@ -74,7 +77,10 @@
                     <p><v-icon left>mdi-hanger</v-icon><span>Size Guide</span></p>
                     <v-divider></v-divider>
                     <div class="price_addToCart_Fav d-flex align-center my-6">
-                        <h2 class="font-weight-bold mr-3">$379.99</h2>
+                        <div class="prices d-flex flex-column flex-sm-row justify-center align-center">
+                            <h2 class="font-weight-bold mr-3">$379.99</h2>
+                            <span class="mr-2 grey--text text-decoration-line-through body-1 font-weight-black">$76.00</span>
+                        </div>
                         <v-btn dark tile class="mr-3">Add To Cart</v-btn>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
@@ -205,49 +211,16 @@
             </v-row>
             <div class="related_products my-4">
                 <h2 class="my-5">Related Products</h2>
-                <v-row>
-                    <v-col cols="12" sm="6" md="4" lg="3" v-for="i in 4" :key="i">
-                        <router-link to="/product-page">
-                                <v-card class="mx-auto" max-width="374" elevation="0">
-                                    <v-img
-                                    height="250"
-                                    src="../assets/prod1.jpg"
-                                    contain
-                                    style="background-color: #f0f0f0"
-                                    alt="Product Name"
-                                    ></v-img>
-                                    <div v-if="i % 3 === 0" class="pink white--text sale font-weight-medium d-flex justify-center align-center">
-                                        - 50%
-                                    </div>
-                                    <v-card-title class="pt-2 pl-2 pb-0 grey--text body-1">Women's tracksuit Q109</v-card-title>
-
-                                    <v-card-text class="pa-0 d-flex justify-space-between align-center">
-                                        <v-card-subtitle class="pl-2 black--text font-weight-bold">
-                                            <span>$38.00</span> 
-                                            <span v-if="i % 3 === 0" class="ml-1 grey--text text-decoration-line-through body-2 font-weight-black">$76.00</span>
-                                        </v-card-subtitle>
-                                        <div class="rating d-flex">
-                                            <v-rating
-                                            :value="4.5"
-                                            color="amber"
-                                            dense
-                                            half-increments
-                                            readonly
-                                            size="14"
-                                            ></v-rating>
-                                        </div>
-                                    </v-card-text>
-                                </v-card>
-                        </router-link>
-                    </v-col>
-                </v-row>
+                <products :prodsArrayLength="4" :ShowRatingNumber="false" :ShowFilter="false" />
             </div>
         </div>
     </v-container>
 </template>
 
 <script>
+import Products from '../components/ProductPages/Products.vue'
 export default {
+  components: { Products },
     name: "ProductPage",
     data(){
         return {
@@ -287,6 +260,14 @@ export default {
 
 .v-breadcrumbs li.v-breadcrumbs__divider {
     padding:0 4px !important;
+}
+
+.sale {
+    width:50px;
+    height:30px;
+    position:absolute;
+    top:20px;
+    left:20px;
 }
 
 .productPage .v-list-item {
