@@ -2,29 +2,28 @@
   <div class="products py-5">
     <ProductsFilter v-if="ShowFilter" />
     <v-row>
-        <v-col cols="12" sm="6" md="4" lg="3" v-for="i in prodsArrayLength" :key="i">
+        <v-col cols="12" sm="6" md="4" lg="3" v-for="product in prodsArray" :key="product.id">
             <router-link to="/product-page">
-                    <v-card class="mx-auto" max-width="374" elevation="0">
+                    <v-card class="mx-auto d-flex flex-column" max-width="374" elevation="0" height="352px">
                         <v-img
                         height="250"
-                        src="../../assets/prod1.jpg"
+                        :src="product.image"
                         contain
-                        style="background-color: #f0f0f0"
                         alt="Product Name"
                         ></v-img>
-                        <div v-if="i % 3 === 0" class="pink white--text sale font-weight-medium d-flex justify-center align-center">
+                        <div v-if="product.discount" class="pink white--text sale font-weight-medium d-flex justify-center align-center">
                             - 50%
                         </div>
-                        <v-card-title class="pt-2 pl-2 pb-0 grey--text body-1">Women's tracksuit Q109</v-card-title>
+                        <v-card-title class="pt-2 pl-2 pb-0 grey--text body-2">{{ product.title }}</v-card-title>
 
                         <v-card-text class="pa-0 d-flex justify-space-between align-center">
                             <v-card-subtitle class="pl-2 black--text font-weight-bold">
-                                <span>$38.00</span> 
-                                <span v-if="i % 3 === 0" class="ml-1 grey--text text-decoration-line-through body-2 font-weight-black">$76.00</span>
+                                <span>${{ product.price }}</span> 
+                                <span v-if="product.discount" class="ml-1 grey--text text-decoration-line-through body-2 font-weight-black">$76.00</span>
                             </v-card-subtitle>
                             <div class="rating d-flex">
                                 <v-rating
-                                :value="4.5"
+                                :value="product.rating.rate"
                                 color="amber"
                                 dense
                                 half-increments
@@ -33,10 +32,12 @@
                                 ></v-rating>
 
                                 <div class="grey--text ms-2" v-if="ShowRatingNumber">
-                                    4.5 (413)
+                                    {{ product.rating.rate }} ({{ product.rating.count }})
                                 </div>
                             </div>
                         </v-card-text>
+                        <!-- <div class="title_priceAndRating d-flex flex-column align-space-between">
+                        </div> -->
                     </v-card>
             </router-link>
             <div class="product-details">
@@ -69,7 +70,7 @@
                     </v-list>
                 </div> -->
                 <div class="price_addToCart_Fav d-flex align-center my-2 justify-space-between">
-                    <v-btn dark tile class="mr-3">Add To Cart</v-btn>
+                    <v-btn dark tile class="mr-3" @click="addProductToCart(product.id)">Add To Cart</v-btn>
                     <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
                             <v-icon
@@ -90,23 +91,22 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import ProductsFilter from './ProductsFilter.vue'
+
 export default {
     name: "Products",
     data(){
         return {
-            colors:['black', 'white', 'blue', 'grey'],
-            sizes:['XS', 'S', 'M', 'L'],
+            colors: ['black', 'white', 'blue', 'grey'],
+            sizes: ['XS', 'S', 'M', 'L'],
+            cartProducts: [],
             isFav: false
         }
     },
     props:{
         prodsArray: {
             type: Array
-        },
-        prodsArrayLength: {
-            type: Number,
-            default: 8
         },
         ShowRatingNumber: {
             type: Boolean,
@@ -119,6 +119,35 @@ export default {
     },
     components:{
         ProductsFilter
+    },
+    computed:{
+      ...mapGetters(['allProducts', 'cartProductsGetter'])
+    },
+    methods:{
+        ...mapActions(['getAllProducts', 'getCartProducts']),
+        addProductToCart(id){
+            let prodData = this.allProducts.filter(prod => prod.id === id)[0];
+            if(this.cartProducts.length){
+                const prodIndexInCart = this.cartProducts.findIndex((prod) => prod.id === id);
+                if(prodIndexInCart >= 0){
+                    // alert('This Product Exists')
+                    this.cartProducts[prodIndexInCart].quantity ++
+                    this.getCartProducts(this.cartProducts)
+                }else{
+                    prodData.quantity = 1;
+                    this.cartProducts.unshift(prodData)
+                    this.getCartProducts(this.cartProducts)
+                }
+            }else {
+                prodData.quantity = 1;
+                this.cartProducts.push(prodData)
+                this.getCartProducts(this.cartProducts)
+            }
+        }
+    },
+    created(){
+        this.getAllProducts();
+        this.cartProducts = this.cartProductsGetter
     }
 }
 </script>
@@ -130,6 +159,14 @@ export default {
     position:absolute;
     top:0;
     left:0;
+}
+
+.products .v-card .v-image__image {
+    transition: 0.4s
+}
+
+.products .v-card:hover .v-image__image {
+    transform: scale(1.15) !important;
 }
 
 a{

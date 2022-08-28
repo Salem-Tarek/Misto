@@ -41,9 +41,9 @@
                         <v-icon>mdi-account</v-icon>
                     </v-btn>
                     <v-badge
-                    :color="cartNum ? 'black' : 'transparent'"
+                    :color="cartProductsGetter.length ? 'black' : 'transparent'"
                     overlap
-                    :content="cartNum ? cartNum : ''"
+                    :content="cartProductsGetter.length ? cartProductsGetter.length : ''"
                     >
                         <v-btn icon @click="CartNavigationDrawerProp = true" width="30">
                             <v-icon>mdi-cart</v-icon>
@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import CartDrawer from './Navigation Drawers/CartDrawer.vue'
 import SearchDrawer from './Navigation Drawers/SearchDrawer.vue'
 import LogInDrawer from './Navigation Drawers/LogInDrawer.vue'
@@ -92,7 +93,7 @@ export default {
     data(){
         return {
             favNum: 2,
-            cartNum: 2,
+            // cartNum: 2,
             CartNavigationDrawerProp: this.CartNavigationDrawerProp,
             SearchNavigationDrawerProp: this.SearchNavigationDrawerProp,
             LogInNavigationDrawerProp: this.LogInNavigationDrawerProp,
@@ -124,7 +125,10 @@ export default {
         toggleNavbarDrawer(){
             this.NavbarNavigationDrawerProp = !this.NavbarNavigationDrawerProp
         },
-    }
+    },
+    computed:{
+        ...mapGetters(['cartProductsGetter'])
+    },
 }
 </script>
 
