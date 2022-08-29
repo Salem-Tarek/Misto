@@ -13,11 +13,11 @@
                 </v-btn>
             </div>
             <div class="prodInfo">
-                <h1 class="text-center">Women's tracksuit Q109</h1>
+                <h1 class="text-center">{{ product.title }}</h1>
                 <div class="d-flex justify-space-between align-center">
-                    <div class="rating d-flex align-center">
+                    <div class="rating d-flex align-center" v-if="product.rating">
                         <v-rating
-                        :value="4"
+                        :value="product.rating.rate"
                         color="amber"
                         dense
                         half-increments
@@ -25,7 +25,7 @@
                         size="12"
                         ></v-rating>
                         <div class="grey--text caption ms-2">
-                            2 Reviews
+                            {{ product.rating.count }} Reviews
                         </div>
                     </div>
                     <div class="d-flex flex-column flex-sm-row">
@@ -36,8 +36,8 @@
             </div>
             <v-row>
                 <v-col cols="12" md="6" style="position: relative">
-                    <v-img max-height="470px" contain lazy-src="../assets/prod1.jpg"></v-img>
-                    <div class="pink white--text sale font-weight-medium d-flex justify-center align-center">
+                    <v-img max-height="470px" contain :src="product.image"></v-img>
+                    <div v-if="product.discount" class="pink white--text sale font-weight-medium d-flex justify-center align-center">
                         - 50%
                     </div>
                 </v-col>
@@ -78,10 +78,10 @@
                     <v-divider></v-divider>
                     <div class="price_addToCart_Fav d-flex align-center my-6">
                         <div class="prices d-flex flex-column flex-sm-row justify-center align-center">
-                            <h2 class="font-weight-bold mr-3">$379.99</h2>
-                            <span class="mr-2 grey--text text-decoration-line-through body-1 font-weight-black">$76.00</span>
+                            <h2 class="font-weight-bold mr-3">${{ chackIfNumIsInt(product.price) ?  `${product.price}.00` : product.price}}</h2>
+                            <span v-if="product.discount" class="mr-2 grey--text text-decoration-line-through body-1 font-weight-black">$76.00</span>
                         </div>
-                        <v-btn dark tile class="mr-3">Add To Cart</v-btn>
+                        <v-btn dark tile class="mr-3" @click="addProductToCart(product.id)">Add To Cart</v-btn>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-icon
@@ -154,7 +154,7 @@
                     <v-divider></v-divider>
                     <div class="description my-5">
                         <p class="subtitle-1 grey--text mb-2">Description</p>
-                        <p class="subtitle-2 grey--text text--darken-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum, beatae, dolorum harum ducimus illum at numquam odio dolores incidunt autem nobis? Laudantium sed aspernatur itaque magnam accusantium, eos adipisci accusamus.</p>
+                        <p class="subtitle-2 grey--text text--darken-2">{{ product.description }}</p>
                     </div>
                     <v-divider></v-divider>
                     <div class="additional_information my-5">
@@ -166,10 +166,10 @@
                     <v-divider></v-divider>
                     <div class="reviews my-5">
                         <p class="subtitle-2 text-uppercase grey--text text--darken-4 mb-0">Reviews</p>
-                        <div class="rating d-flex justify-space-between align-center">
+                        <div class="rating d-flex justify-space-between align-center" v-if="product.rating">
                             <div class="d-flex align-center">
                                 <v-rating
-                                :value="4.5"
+                                :value="product.rating.rate"
                                 color="amber"
                                 dense
                                 half-increments
@@ -177,7 +177,7 @@
                                 size="12"
                                 ></v-rating>
                                 <div class="grey--text ms-2 caption">
-                                    2 Reviews
+                                    {{ product.rating.count }} Reviews
                                 </div>
                             </div>
                             <div class="d-flex align-center">
@@ -189,10 +189,10 @@
                             <div class="review mb-7" v-for="i in 2" :key="i">
                                 <div class="review-header mb-2 d-flex justify-space-between align-center">
                                     <p class="text-grey text--darken-3 grey--text mb-0">Oleh Chabanov</p>
-                                    <div class="rating_time d-flex align-center">
+                                    <div class="rating_time d-flex align-center" v-if="product.rating">
                                         <span class="grey--text caption">3 monthes ago</span>
                                         <v-rating
-                                        :value="4.5"
+                                        :value="product.rating.rate"
                                         color="amber"
                                         dense
                                         half-increments
@@ -211,7 +211,7 @@
             </v-row>
             <div class="related_products my-4">
                 <h2 class="my-5">Related Products</h2>
-                <products :prodsArrayLength="4" :ShowRatingNumber="false" :ShowFilter="false" />
+                <products :prodsArray="menProducts" :ShowRatingNumber="false" :ShowFilter="false" />
             </div>
         </div>
     </v-container>
@@ -219,6 +219,9 @@
 
 <script>
 import Products from '../components/ProductPages/Products.vue'
+import axios from "axios"
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   components: { Products },
     name: "ProductPage",
@@ -247,8 +250,63 @@ export default {
             sizes:['XS', 'S', 'M', 'L'],
             selectedSize:1,
 
+            product: {},
+            cartProducts: [],
+
             isFav: false
         }
+    },
+    computed:{
+      ...mapGetters(['allProducts', 'cartProductsGetter', 'menProducts']),
+    },
+    methods:{
+        ...mapActions(['getAllProducts', 'getCartProducts', 'getMenProducts']),
+        chackIfNumIsInt(num){
+            if(num % 1 === 0){
+                return true
+            }else{
+                return false
+            }
+        },
+        addProductToCart(id){
+            let cartProdData = this.allProducts.filter(prod => prod.id === id)[0];
+            if(this.cartProducts.length){
+                const prodIndexInCart = this.cartProducts.findIndex(prod => prod.id === id);
+                if(prodIndexInCart >= 0){ // Means This Product Already Exist
+                    // alert('This Product Exists')
+                    this.cartProducts[prodIndexInCart].quantity ++
+                    this.getCartProducts(this.cartProducts)
+                }else{
+                    cartProdData.quantity = 1;
+                    this.cartProducts.unshift(cartProdData)
+                    this.getCartProducts(this.cartProducts)
+                }
+            }else {
+                cartProdData.quantity = 1;
+                this.cartProducts.push(cartProdData)
+                this.getCartProducts(this.cartProducts)
+            }
+        },
+    },
+    created(){
+        // Error In Clicking on Related Product In Product Page 
+      axios.get(`https://fakestoreapi.com/products/${this.$route.params.id}`)
+        .then(res => this.product = res.data)   
+        .catch(err => console.log(err));
+        this.getMenProducts(4);
+        window.scrollBy({ 
+            top: -5000, // could be negative value
+            left: 0, 
+            behavior: 'smooth' 
+        });
+        this.cartProducts = this.cartProductsGetter;
+    },
+    watch:{
+        cartProductsGetter(newVal, oldVal){
+            if(newVal !== oldVal){
+                this.cartProducts = this.cartProductsGetter
+            }
+        },
     }
 }
 </script>

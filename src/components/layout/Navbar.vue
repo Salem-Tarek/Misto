@@ -50,9 +50,9 @@
                         </v-btn>
                     </v-badge>
                     <v-badge
-                    :color="favNum ? 'black' : 'transparent'"
+                    :color="favouriteProductsGetter.length ? 'black' : 'transparent'"
                     overlap
-                    :content="favNum ? favNum : ''"
+                    :content="favouriteProductsGetter.length ? favouriteProductsGetter.length : ''"
                     >
                         <v-btn icon @click="FavouriteNavigationDrawerProp = true" width="30">
                             <v-icon>mdi-heart</v-icon>
@@ -127,7 +127,7 @@ export default {
         },
     },
     computed:{
-        ...mapGetters(['cartProductsGetter'])
+        ...mapGetters(['cartProductsGetter', 'favouriteProductsGetter'])
     },
 }
 </script>
@@ -157,16 +157,16 @@ export default {
 }
 .bar-content ul li a.router-link-exact-active,
 .bar-content ul li a:hover,
-.v-list .v-list-item a:hover,
-.v-list .v-list-item a.router-link-exact-active {
-    color: #0BB17F
+nav .bar-content .v-list .v-list-item a:hover,
+nav .bar-content .v-list .v-list-item a.router-link-exact-active {
+    color: #0BB17F;
 }
 .v-badge__badge {
     inset: auto auto calc(100% - 17px) calc(100% - 13px) !important;
 }
-
+/* 
 .v-input .v-input-control .v-input__slot {
     background-color: red;
-}
+} */
 
 </style>

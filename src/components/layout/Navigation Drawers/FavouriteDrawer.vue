@@ -19,43 +19,32 @@
             <v-divider></v-divider>
         </v-list>
         <v-list class="d-flex flex-column pa-0 mb-3">
-            <router-link to="/product-page">
-                <v-list-item :ripple="false" class="mb-0">
+            <v-list-item :ripple="false" class="mb-0" v-for="favouriteProduct in favouriteProductsGetter" :key="favouriteProduct.id">
+                <router-link to="/product-page" class="d-flex">
                     <v-list-item-avatar tile size="80">
-                        <v-img src="../../../assets/cartImg1.png"></v-img>
+                        <v-img :src="favouriteProduct.image"></v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
-                        <v-list-item-title class="subtitle-1 grey--text">Women's tracksuit Q109</v-list-item-title>
-                        <v-list-item-subtitle class="black--text mb-5">Women</v-list-item-subtitle>
+                        <v-list-item-title class="subtitle-1 grey--text">{{ favouriteProduct.title }}</v-list-item-title>
+                        <v-list-item-subtitle class="black--text mb-5 body-2">{{ favouriteProduct.category }}</v-list-item-subtitle>
                         <div class="cart-item-info d-flex justify-space-between align-center">
-                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">$159.9</p>
+                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">{{ favouriteProduct.price }}</p>
                             <v-spacer></v-spacer>
-                            <v-icon>mdi-trash-can-outline</v-icon>
+                            <v-icon @click.prevent="deleteFavouriteProduct(favouriteProduct.id)">mdi-trash-can-outline</v-icon>
                         </div>
                     </v-list-item-content>
-                </v-list-item>
-            </router-link>
-            <router-link to="/product-page">
-                <v-list-item :ripple="false" class="mb-0">
-                    <v-list-item-avatar tile size="80">
-                        <v-img src="../../../assets/prod1.jpg"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title class="subtitle-1 grey--text">Women T-shirt</v-list-item-title>
-                        <v-list-item-subtitle class="black--text mb-5">Women</v-list-item-subtitle>
-                        <div class="cart-item-info d-flex justify-space-between align-center">
-                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">$159.9</p>
-                            <v-spacer></v-spacer>
-                            <v-icon>mdi-trash-can-outline</v-icon>
-                        </div>
-                    </v-list-item-content>
-                </v-list-item>
-            </router-link>
+                </router-link>
+            </v-list-item>
+            <v-list-item class="justify-center headline py-4" v-if="!favouriteProductsGetter.length">
+                    Favourite List Is Empty
+            </v-list-item>
         </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
     name: "FavouriteNavigationDrawer",
     props:{
@@ -66,10 +55,15 @@ export default {
     },
     data(){
         return {
-            FavouriteNavigationDrawerPropClone: this.FavouriteNavigationDrawerProp
+            FavouriteNavigationDrawerPropClone: this.FavouriteNavigationDrawerProp,
+            favouriteProducts: [],
         }
     },
+    computed:{
+        ...mapGetters(['favouriteProductsGetter'])
+    },
     methods:{
+        ...mapActions(['getFavouriteProducts']),
         localToggleCartDrawer(){
             this.FavouriteNavigationDrawerPropClone = !this.FavouriteNavigationDrawerPropClone
             // this.$emit('toggleDrawerProp')
@@ -78,6 +72,10 @@ export default {
             if((this.FavouriteNavigationDrawerProp == true) && (this.FavouriteNavigationDrawerPropClone == false)){
                 this.$emit('toggleFavouriteDrawerProp')
             }
+        },
+        deleteFavouriteProduct(id){
+            this.favouriteProducts = this.favouriteProductsGetter.filter(prod => prod.id !== id);
+            this.getFavouriteProducts(this.favouriteProducts)
         }
     },
     watch:{
@@ -86,6 +84,9 @@ export default {
                 this.FavouriteNavigationDrawerPropClone = newVal
             }
         },
+    },
+    created(){
+        this.favouriteProducts = this.favouriteProductsGetter;
     }
 }   
 </script>
@@ -93,5 +94,9 @@ export default {
 <style>
 .favourite-drawer .remove-after-pseudo-element::after{
     display: none;
+}
+
+.favourite-drawer .v-list-item__title {
+    white-space: normal;
 }
 </style>

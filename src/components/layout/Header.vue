@@ -89,11 +89,16 @@ header {
     .social-icons {
         a {
             text-decoration: none;
-            .v-icon {
-                transition: 0.4s;
-                color:#fff !important;
-                &:hover {
-                    color: gray !important;
+            .v-list-item{
+                .v-icon {
+                    transition: 0.4s;
+                    color:#fff !important;
+                    &:hover {
+                        color: gray !important;
+                    }
+                }
+                .v-list-item__title {
+                    white-space: nowrap !important;
                 }
             }
         }

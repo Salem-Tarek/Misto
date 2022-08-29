@@ -7,6 +7,7 @@ const state = {
     electronicsProducts: [],
     jeweleryProducts: [],
     cartProducts: JSON.parse(localStorage.getItem('mistoCartProducts')) || [],
+    favouriteProducts: JSON.parse(localStorage.getItem('mistoFavouriteProducts')) || [],
 }
 
 const getters = {
@@ -16,12 +17,17 @@ const getters = {
     electronicsProducts: state => state.electronicsProducts,
     jeweleryProducts: state => state.jeweleryProducts,
     cartProductsGetter: state => state.cartProducts,
+    favouriteProductsGetter: state => state.favouriteProducts,
 }
 
 const actions = {
     async getAllProducts ({ commit }){
         const response = await axios.get('https://fakestoreapi.com/products');
+        for(let product of response.data){
+            product.fav = false
+        }
         commit('getAllProducts', response.data)
+        // console.log(response.data);
     },
     async getMenProducts ({ commit }, prodsLimit){
         const response = await axios.get(`https://fakestoreapi.com/products/category/men's clothing?limit=${prodsLimit}`);
@@ -39,9 +45,13 @@ const actions = {
         const response = await axios.get(`https://fakestoreapi.com/products/category/jewelery?limit=${prodsLimit}`);
         commit('getJeweleryProducts', response.data)
     },
-    async getCartProducts ({ commit }, cartProducts){
-            commit('getCartProducts', cartProducts)
-            localStorage.setItem('mistoCartProducts', JSON.stringify(cartProducts))
+    getCartProducts ({ commit }, cartProducts){
+        commit('getCartProducts', cartProducts)
+        localStorage.setItem('mistoCartProducts', JSON.stringify(cartProducts))
+    },
+    getFavouriteProducts ({ commit }, favouriteProducts){
+        commit('getFavoutiteProducts', favouriteProducts)
+        localStorage.setItem('mistoFavouriteProducts', JSON.stringify(favouriteProducts))
     },
     
 }
@@ -53,6 +63,7 @@ const mutations = {
     getElectronicsProducts: (state, electronicsProducts) => state.electronicsProducts = electronicsProducts,
     getJeweleryProducts: (state, jeweleryProducts) => state.jeweleryProducts = jeweleryProducts,
     getCartProducts: (state, cartProducts) => state.cartProducts = cartProducts,
+    getFavoutiteProducts: (state, favouriteProducts) => state.favouriteProducts = favouriteProducts,
 }
 
 export default {

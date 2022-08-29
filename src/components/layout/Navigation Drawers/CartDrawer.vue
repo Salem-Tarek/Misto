@@ -19,7 +19,7 @@
             <v-divider></v-divider>
             <!-- Cart Products Section -->
             <template  v-for="cartProduct in cartProductsGetter">
-                <v-list-item :ripple="false" class="mb-0" :key="cartProduct.id*2">
+                <v-list-item :ripple="false" class="mb-0" :key="'A' + cartProduct.id">
                     <v-list-item-avatar tile size="80">
                         <v-img :src="cartProduct.image"></v-img>
                     </v-list-item-avatar>
@@ -44,14 +44,14 @@
                             </div>
                             <p class="subtitle-1 font-weight-bold mb-0 ml-2">${{ cartProduct.price }}</p>
                             <v-spacer></v-spacer>
-                            <v-icon>mdi-trash-can-outline</v-icon>
+                            <v-icon @click="deleteCartProduct(cartProduct.id)">mdi-trash-can-outline</v-icon>
                         </div>
                     </v-list-item-content>
                 </v-list-item>
-                <v-divider :key="cartProduct.id"></v-divider>
+                <!-- <v-divider :key="cartProduct.id*0.222221"></v-divider> -->
             </template>
             <!-- Total Cost Section -->
-            <v-list-item class="justify-center display-1 py-4" v-if="!cartProductsGetter.length">
+            <v-list-item class="justify-center headline py-4" v-if="!cartProductsGetter.length">
                     Cart Is Empty
             </v-list-item>
             <v-list-item class="remove-after-pseudo-element pt-3 mt-auto rounded-0 px-3 flex-column" v-if="cartProductsGetter.length">
@@ -91,6 +91,7 @@ export default {
     data(){
         return {
             CartNavigationDrawerPropClone: this.CartNavigationDrawerProp,
+            cartProducts: []
         }
     },
     props:{
@@ -114,7 +115,7 @@ export default {
             }
         },
         saveCartProductsChanges(){
-            this.getCartProducts()
+            this.getCartProducts(this.cartProductsGetter)
         },
         decQuantity(){
             this.getCartProducts(this.cartProductsGetter)
@@ -122,6 +123,10 @@ export default {
         incQuantity(){
             this.getCartProducts(this.cartProductsGetter)
         },
+        deleteCartProduct(id){
+            this.cartProducts = this.cartProductsGetter.filter(prod => prod.id !== id);
+            this.getCartProducts(this.cartProducts)
+        }
     },
     watch:{
         CartNavigationDrawerProp(newVal, oldVal){
@@ -129,6 +134,9 @@ export default {
                 this.CartNavigationDrawerPropClone = newVal
             }
         },
+    },
+    created(){
+        this.cartProducts = this.cartProductsGetter;
     }
 }
 </script>
@@ -155,6 +163,12 @@ export default {
     color: #0BB17F
 }
 
+.cart-item-info > .v-icon {
+    transition: 0.5s
+}
 
+.cart-item-info > .v-icon:hover {
+    color: #0BB17F
+}
 
 </style>

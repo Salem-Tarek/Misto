@@ -49,7 +49,7 @@ const routes = [
     component: JeweleryPage,
   },
   {
-    path: "/product-page",
+    path: "/product-page/:id",
     name: "ProductPage",
     component: ProductPage,
   },
