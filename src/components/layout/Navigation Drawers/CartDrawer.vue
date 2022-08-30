@@ -18,7 +18,7 @@
             </v-list-item>
             <v-divider></v-divider>
             <!-- Cart Products Section -->
-            <template  v-for="cartProduct in cartProductsGetter">
+            <template v-for="cartProduct in cartProductsGetter">
                 <v-list-item :ripple="false" class="mb-0" :key="'A' + cartProduct.id">
                     <v-list-item-avatar tile size="80">
                         <v-img :src="cartProduct.image"></v-img>
@@ -28,7 +28,7 @@
                         <v-list-item-subtitle class="black--text mb-5">{{ cartProduct.category }}</v-list-item-subtitle>
                         <div class="cart-item-info d-flex justify-space-between align-center">
                             <div class="input d-flex align-center">
-                                <v-icon @click="cartProduct.quantity--;decQuantity()">mdi-minus</v-icon>
+                                <v-icon :disabled="cartProduct.quantity <= 1" @click="cartProduct.quantity--;decQuantity()">mdi-minus</v-icon>
                                 <v-text-field
                                 v-model="cartProduct.quantity"
                                 solo
@@ -40,9 +40,9 @@
                                 height="30"
                                 @input="saveCartProductsChanges"
                                 ></v-text-field>
-                                <v-icon @click="cartProduct.quantity++;incQuantity()">mdi-plus</v-icon>
+                                <v-icon :disabled="cartProduct.quantity >= 100" @click="cartProduct.quantity++;incQuantity()">mdi-plus</v-icon>
                             </div>
-                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">${{ cartProduct.price }}</p>
+                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">${{ cartProduct.price.toFixed(2) }}</p>
                             <v-spacer></v-spacer>
                             <v-icon @click="deleteCartProduct(cartProduct.id)">mdi-trash-can-outline</v-icon>
                         </div>
@@ -50,30 +50,30 @@
                 </v-list-item>
                 <!-- <v-divider :key="cartProduct.id*0.222221"></v-divider> -->
             </template>
-            <!-- Total Cost Section -->
             <v-list-item class="justify-center headline py-4" v-if="!cartProductsGetter.length">
                     Cart Is Empty
             </v-list-item>
+            <!-- Total Cost Section -->
             <v-list-item class="remove-after-pseudo-element pt-3 mt-auto rounded-0 px-3 flex-column" v-if="cartProductsGetter.length">
                 <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
                     <p class="subtitle-1 grey--text text--darken-2 mb-0">Tax</p>
-                    <p class="subtitle-1 font-weight-bold mb-0">$ 50.00</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ {{ taxGetter }}</p>
                 </v-list-item-title>
                 <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
                     <p class="subtitle-1 grey--text text--darken-2 mb-0">Shipping</p>
-                    <p class="subtitle-1 font-weight-bold mb-0">$ 100.00</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ {{ shippingGetter }}</p>
                 </v-list-item-title>
                 <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
                     <p class="subtitle-1 grey--text text--darken-2 mb-0">Discount</p>
-                    <p class="subtitle-1 font-weight-bold mb-0">$ 200.00</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ {{ discountGetter }}</p>
                 </v-list-item-title>
                 <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
                     <p class="subtitle-1 grey--text text--darken-2 mb-0">Cart Total</p>
-                    <p class="subtitle-1 font-weight-bold mb-0">$ 350.00</p>
+                    <p class="subtitle-1 font-weight-bold mb-0">$ {{ totalCostGetter.toFixed(2) }}</p>
                 </v-list-item-title>
                 <v-list-item-title class="d-flex justify-space-between align-center" style="width:100%">
                     <p class="subtitle-1 grey--text text--darken-2">Total</p>
-                    <p class="headline">$ 350.00</p>
+                    <p class="headline">$ {{ getTotalCostOfCartProducts.toFixed(2) }}</p>
                 </v-list-item-title>
                 <v-list-item-action class="mx-auto" style="width:80%">
                     <v-btn dark class="text-uppercase mb-3 rounded-0" block>Check out</v-btn>
@@ -101,10 +101,14 @@ export default {
         },
     },
     computed:{
-        ...mapGetters(['cartProductsGetter'])
+        ...mapGetters(['cartProductsGetter', 'totalCostGetter', 'shippingGetter', 'taxGetter', 'discountGetter']),
+        getTotalCostOfCartProducts(){
+            let theTotal = this.totalCostGetter + this.shippingGetter + this.taxGetter - this.discountGetter;
+            return theTotal
+        }
     },
     methods:{
-        ...mapActions(['getCartProducts']),
+        ...mapActions(['getCartProducts', 'getTotalCost']),
         localToggleCartDrawer(){
             this.CartNavigationDrawerPropClone = !this.CartNavigationDrawerPropClone
             // this.$emit('toggleDrawerProp')
@@ -116,16 +120,20 @@ export default {
         },
         saveCartProductsChanges(){
             this.getCartProducts(this.cartProductsGetter)
+            this.getTotalCost(this.cartProductsGetter)
         },
         decQuantity(){
             this.getCartProducts(this.cartProductsGetter)
+            this.getTotalCost(this.cartProductsGetter)
         },
         incQuantity(){
             this.getCartProducts(this.cartProductsGetter)
+            this.getTotalCost(this.cartProductsGetter)
         },
         deleteCartProduct(id){
             this.cartProducts = this.cartProductsGetter.filter(prod => prod.id !== id);
             this.getCartProducts(this.cartProducts)
+            this.getTotalCost(this.cartProductsGetter)
         }
     },
     watch:{
@@ -137,6 +145,7 @@ export default {
     },
     created(){
         this.cartProducts = this.cartProductsGetter;
+        this.getTotalCost(this.cartProductsGetter)
     }
 }
 </script>

@@ -21,10 +21,10 @@ export default {
       ...mapGetters(['womenProducts'])
     },
     methods:{
-      ...mapActions(['getWomenProducts']),
+      ...mapActions(['getFourWomenProducts']),
     },
     created(){
-      this.getWomenProducts(4);
+      this.getFourWomenProducts();
     }
 }
 </script>

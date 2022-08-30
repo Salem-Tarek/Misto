@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import CartDrawer from './Navigation Drawers/CartDrawer.vue'
 import SearchDrawer from './Navigation Drawers/SearchDrawer.vue'
 import LogInDrawer from './Navigation Drawers/LogInDrawer.vue'
@@ -110,6 +110,7 @@ export default {
         NavbarDrawer
     },
     methods:{
+        ...mapActions(['getAllProducts']),
         toggleCartDrawer(){
             this.CartNavigationDrawerProp = !this.CartNavigationDrawerProp
         },
@@ -129,6 +130,9 @@ export default {
     computed:{
         ...mapGetters(['cartProductsGetter', 'favouriteProductsGetter'])
     },
+    created(){
+        this.getAllProducts()
+    }
 }
 </script>
 

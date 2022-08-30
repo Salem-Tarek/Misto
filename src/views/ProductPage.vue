@@ -78,7 +78,7 @@
                     <v-divider></v-divider>
                     <div class="price_addToCart_Fav d-flex align-center my-6">
                         <div class="prices d-flex flex-column flex-sm-row justify-center align-center">
-                            <h2 class="font-weight-bold mr-3">${{ chackIfNumIsInt(product.price) ?  `${product.price}.00` : product.price}}</h2>
+                            <h2 class="font-weight-bold mr-3">${{ parseFloat(product.price).toFixed(2) }}</h2>
                             <span v-if="product.discount" class="mr-2 grey--text text-decoration-line-through body-1 font-weight-black">$76.00</span>
                         </div>
                         <v-btn dark tile class="mr-3" @click="addProductToCart(product.id)">Add To Cart</v-btn>
@@ -87,12 +87,11 @@
                                 <v-icon
                                 v-bind="attrs"
                                 v-on="on"
-                                :class="{'red--text': isFav}"
-                                @click="isFav = !isFav"
-                                v-text="isFav ? 'mdi-heart' : 'mdi-heart-outline'" 
-                                ></v-icon>
+                                :class="{'red--text': product.fav}"
+                                @click="addProductToFavouriteList(product.id)" 
+                                >{{ product.fav ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
                             </template>
-                            <span>{{ !isFav ? 'Add To' : 'Remove From' }} Favourite List</span>
+                            <span>{{  product.fav ? 'Add To' : 'Remove From' }} Favourite List</span>
                         </v-tooltip>
                     </div>
                     <v-divider></v-divider>
@@ -211,7 +210,7 @@
             </v-row>
             <div class="related_products my-4">
                 <h2 class="my-5">Related Products</h2>
-                <products :prodsArray="menProducts" :ShowRatingNumber="false" :ShowFilter="false" />
+                <products :maxProdsNum="4" :prodsArray="menProducts" :ShowRatingNumber="false" :ShowFilter="false" />
             </div>
         </div>
     </v-container>
@@ -252,22 +251,15 @@ export default {
 
             product: {},
             cartProducts: [],
+            favouriteProducts: [],
 
-            isFav: false
         }
     },
     computed:{
-      ...mapGetters(['allProducts', 'cartProductsGetter', 'menProducts']),
+      ...mapGetters(['allProducts', 'cartProductsGetter', 'favouriteProductsGetter', 'menProducts']),
     },
     methods:{
-        ...mapActions(['getAllProducts', 'getCartProducts', 'getMenProducts']),
-        chackIfNumIsInt(num){
-            if(num % 1 === 0){
-                return true
-            }else{
-                return false
-            }
-        },
+        ...mapActions(['getAllProducts', 'getCartProducts', 'getFavouriteProducts', 'getMenProducts', 'getTotalCost']),
         addProductToCart(id){
             let cartProdData = this.allProducts.filter(prod => prod.id === id)[0];
             if(this.cartProducts.length){
@@ -286,20 +278,80 @@ export default {
                 this.cartProducts.push(cartProdData)
                 this.getCartProducts(this.cartProducts)
             }
+            this.getTotalCost(this.cartProductsGetter)
         },
+        addProductToFavouriteList(id){
+            this.favouriteProducts = this.allProducts.filter(prod => prod.fav === true);
+            console.log(this.favouriteProducts);
+            let favProdData = this.allProducts.filter(prod => prod.id === id)[0];
+            if(this.favouriteProducts.length){
+                const prodIndexInFavourite = this.favouriteProducts.findIndex(prod => prod.id === id);
+                if(prodIndexInFavourite >= 0){ // Means This Product Already Exist
+                    // alert('This Product Exists')
+                    this.favouriteProducts[prodIndexInFavourite].fav = false
+                    this.favouriteProducts = this.favouriteProducts.filter(prod => prod.id !== id)
+                    this.getFavouriteProducts(this.favouriteProducts)
+                }else{
+                    favProdData.fav = true;
+                    this.favouriteProducts.unshift(favProdData)
+                    this.getFavouriteProducts(this.favouriteProducts)
+                }
+                this.isFav()
+            }else {
+                favProdData.fav = true;
+                this.favouriteProducts.push(favProdData)
+                this.getFavouriteProducts(this.favouriteProducts)
+                this.isFav(id)
+            }
+            // console.log(this.favouriteProducts);
+        },
+        isFav(id){
+            for(let product of this.favouriteProducts){
+                if(product.id == id){
+                    return true
+                }else{
+                    return false
+                }
+            }
+        }
     },
     created(){
-        // Error In Clicking on Related Product In Product Page 
-      axios.get(`https://fakestoreapi.com/products/${this.$route.params.id}`)
-        .then(res => this.product = res.data)   
-        .catch(err => console.log(err));
-        this.getMenProducts(4);
-        window.scrollBy({ 
-            top: -5000, // could be negative value
-            left: 0, 
-            behavior: 'smooth' 
-        });
-        this.cartProducts = this.cartProductsGetter;
+        axios.get(`https://fakestoreapi.com/products/${this.$route.params.id}`)
+            .then(res => {
+                this.product = res.data;
+                this.product.fav = false
+                // console.log(this.product);
+            })   
+            .catch(err => console.log(err));
+            this.getMenProducts(4);
+            window.scrollBy({ 
+                top: -5000, // could be negative value
+                left: 0, 
+                behavior: 'smooth' 
+            });
+            this.cartProducts = this.cartProductsGetter;
+            this.favouriteProducts = this.favouriteProductsGetter;
+
+        this.$watch(
+            () => this.$route.params,
+            (toParams, previousParams) => {
+                if(toParams.id !== previousParams.id){
+                    axios.get(`https://fakestoreapi.com/products/${this.$route.params.id}`)
+                    .then(res => this.product = res.data)   
+                    .catch(err => console.log(err));
+                    this.getMenProducts(4);
+                    window.scrollBy({ 
+                        top: -5000, // could be negative value
+                        left: 0, 
+                        behavior: 'smooth' 
+                    });
+                    this.cartProducts = this.cartProductsGetter;
+                }
+            }
+        )
+
+        this.getTotalCost(this.cartProductsGetter)
+      
     },
     watch:{
         cartProductsGetter(newVal, oldVal){
@@ -307,6 +359,11 @@ export default {
                 this.cartProducts = this.cartProductsGetter
             }
         },
+        favouriteProductsGetter(newVal, oldVal){
+            if(newVal !== oldVal){
+                this.favouriteProducts = this.favouriteProductsGetter
+            }
+        }
     }
 }
 </script>

@@ -4,9 +4,9 @@
             <h1 class="mb-4 font-weight-medium text-center">Women</h1>
             <Products :prodsArray="womenProducts" :ShowRatingNumber="false" />
             <!-- I Used it More than time Becasue I use Fake API with small Data -->
+            <!-- <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" />
             <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" />
-            <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" />
-            <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" />
+            <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" /> -->
         </v-container>
     </div>
 </template>
@@ -27,7 +27,7 @@ export default {
       ...mapActions(['getWomenProducts']),
     },
     created(){
-      this.getWomenProducts(4);
+      this.getWomenProducts();
     }
 }
 </script>

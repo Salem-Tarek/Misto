@@ -24,7 +24,7 @@ export default {
       ...mapActions(['getMenProducts'])
     },
     created(){
-      this.getMenProducts(4);
+      this.getMenProducts();
     }
 }
 </script>
