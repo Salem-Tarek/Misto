@@ -20,7 +20,7 @@
         </v-list>
         <v-list class="d-flex flex-column pa-0 mb-3">
             <v-list-item :ripple="false" class="mb-0" v-for="favouriteProduct in favouriteProductsGetter" :key="favouriteProduct.id">
-                <router-link to="/product-page" class="d-flex">
+                <router-link :to="'/product-page/' + favouriteProduct.id" class="d-flex">
                     <v-list-item-avatar tile size="80">
                         <v-img :src="favouriteProduct.image"></v-img>
                     </v-list-item-avatar>
@@ -28,7 +28,7 @@
                         <v-list-item-title class="subtitle-1 grey--text">{{ favouriteProduct.title }}</v-list-item-title>
                         <v-list-item-subtitle class="black--text mb-5 body-2">{{ favouriteProduct.category }}</v-list-item-subtitle>
                         <div class="cart-item-info d-flex justify-space-between align-center">
-                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">{{ favouriteProduct.price }}</p>
+                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">$ {{ favouriteProduct.price }}</p>
                             <v-spacer></v-spacer>
                             <v-icon @click.prevent="deleteFavouriteProduct(favouriteProduct.id)">mdi-trash-can-outline</v-icon>
                         </div>

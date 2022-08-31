@@ -74,10 +74,50 @@ const actions = {
 
 const mutations = {
     getAllProducts: (state, allProducts) => state.allProducts = allProducts,
-    getMenProducts: (state, menProducts) => state.menProducts = menProducts,
-    getWomenProducts: (state, womenProducts) => state.womenProducts = womenProducts,
-    getElectronicsProducts: (state, electronicsProducts) => state.electronicsProducts = electronicsProducts,
-    getJeweleryProducts: (state, jeweleryProducts) => state.jeweleryProducts = jeweleryProducts,
+    getMenProducts: (state, menProducts) => {
+        for(let product of menProducts){
+            product.fav = false;
+            for(let favProduct of state.favouriteProducts){
+                if( product.id === favProduct.id){
+                    product.fav = true;
+                }
+            }
+        }
+        state.menProducts = menProducts
+    },
+    getWomenProducts: (state, womenProducts) => {
+        for(let product of womenProducts){
+            product.fav = false;
+            for(let favProduct of state.favouriteProducts){
+                if( product.id === favProduct.id){
+                    product.fav = true;
+                }
+            }
+        }
+        state.womenProducts = womenProducts
+    },
+    getElectronicsProducts: (state, electronicsProducts) => {
+        for(let product of electronicsProducts){
+            product.fav = false;
+            for(let favProduct of state.favouriteProducts){
+                if( product.id === favProduct.id){
+                    product.fav = true;
+                }
+            }
+        }
+        state.electronicsProducts = electronicsProducts
+    },
+    getJeweleryProducts: (state, jeweleryProducts) => {
+        for(let product of jeweleryProducts){
+            product.fav = false;
+            for(let favProduct of state.favouriteProducts){
+                if( product.id === favProduct.id){
+                    product.fav = true;
+                }
+            }
+        }
+        state.jeweleryProducts = jeweleryProducts
+    },
     getCartProducts: (state, cartProducts) => state.cartProducts = cartProducts,
     getFavoutiteProducts: (state, favouriteProducts) => state.favouriteProducts = favouriteProducts,
     getSearchedProducts: (state, SearchedProducts) => state.SearchedProducts = SearchedProducts,

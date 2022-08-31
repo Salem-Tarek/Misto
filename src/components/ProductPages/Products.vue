@@ -162,7 +162,7 @@ export default {
                 this.favouriteProducts = this.favouriteProductsGetter
             }
         }
-    }
+    },
 }
 </script>
 

@@ -2,7 +2,7 @@
     <v-container class="pt-0">
         <div class="productPage">
             <div class="breadcrumb_share d-flex justify-space-between align-center">
-                <v-breadcrumbs :items="items">
+                <v-breadcrumbs :items="breadcrumbItems">
                     <template v-slot:divider>
                         <v-icon>mdi-chevron-right</v-icon>
                     </template>
@@ -91,7 +91,7 @@
                                 @click="addProductToFavouriteList(product.id)" 
                                 >{{ product.fav ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
                             </template>
-                            <span>{{  product.fav ? 'Add To' : 'Remove From' }} Favourite List</span>
+                            <span>{{  !product.fav ? 'Add To' : 'Remove From' }} Favourite List</span>
                         </v-tooltip>
                     </div>
                     <v-divider></v-divider>
@@ -226,7 +226,7 @@ export default {
     name: "ProductPage",
     data(){
         return {
-            items: [
+            breadcrumbItems: [
                 {
                     text: 'Home',
                     disabled: false,
@@ -243,6 +243,7 @@ export default {
                     href: '/product-page',
                 },
             ],
+
             colors:['black', 'white', 'blue', 'grey'],
             selectedColor:1,
 
@@ -250,6 +251,7 @@ export default {
             selectedSize:1,
 
             product: {},
+
             cartProducts: [],
             favouriteProducts: [],
 
@@ -281,14 +283,15 @@ export default {
             this.getTotalCost(this.cartProductsGetter)
         },
         addProductToFavouriteList(id){
-            this.favouriteProducts = this.allProducts.filter(prod => prod.fav === true);
-            console.log(this.favouriteProducts);
-            let favProdData = this.allProducts.filter(prod => prod.id === id)[0];
-            if(this.favouriteProducts.length){
-                const prodIndexInFavourite = this.favouriteProducts.findIndex(prod => prod.id === id);
+            let favProdData = this.product;
+
+            if(this.favouriteProducts.length > 0){
+                const prodIndexInFavourite = this.favouriteProducts.findIndex(prod => prod.id === favProdData.id);
+                
                 if(prodIndexInFavourite >= 0){ // Means This Product Already Exist
                     // alert('This Product Exists')
-                    this.favouriteProducts[prodIndexInFavourite].fav = false
+                    this.favouriteProducts[prodIndexInFavourite].fav = false;
+                    this.product = this.favouriteProducts[prodIndexInFavourite];
                     this.favouriteProducts = this.favouriteProducts.filter(prod => prod.id !== id)
                     this.getFavouriteProducts(this.favouriteProducts)
                 }else{
@@ -296,39 +299,39 @@ export default {
                     this.favouriteProducts.unshift(favProdData)
                     this.getFavouriteProducts(this.favouriteProducts)
                 }
-                this.isFav()
+
             }else {
                 favProdData.fav = true;
                 this.favouriteProducts.push(favProdData)
                 this.getFavouriteProducts(this.favouriteProducts)
-                this.isFav(id)
             }
-            // console.log(this.favouriteProducts);
+
         },
-        isFav(id){
-            for(let product of this.favouriteProducts){
-                if(product.id == id){
-                    return true
-                }else{
-                    return false
-                }
-            }
-        }
     },
     created(){
         axios.get(`https://fakestoreapi.com/products/${this.$route.params.id}`)
             .then(res => {
-                this.product = res.data;
-                this.product.fav = false
-                // console.log(this.product);
+                let temp = res.data;
+                for(let favProduct of this.favouriteProductsGetter){
+                    if(favProduct.id === temp.id){
+                        temp.fav = true;
+                        break;
+                    }else{
+                        temp.fav = false
+                    }
+                }
+                this.product = temp;
             })   
             .catch(err => console.log(err));
-            this.getMenProducts(4);
+
+            this.getMenProducts();
+
             window.scrollBy({ 
                 top: -5000, // could be negative value
                 left: 0, 
                 behavior: 'smooth' 
             });
+
             this.cartProducts = this.cartProductsGetter;
             this.favouriteProducts = this.favouriteProductsGetter;
 
@@ -337,14 +340,28 @@ export default {
             (toParams, previousParams) => {
                 if(toParams.id !== previousParams.id){
                     axios.get(`https://fakestoreapi.com/products/${this.$route.params.id}`)
-                    .then(res => this.product = res.data)   
-                    .catch(err => console.log(err));
-                    this.getMenProducts(4);
+                        .then(res => {
+                            let temp = res.data;
+                            for(let favProduct of this.favouriteProductsGetter){
+                                if(favProduct.id === temp.id){
+                                    temp.fav = true;
+                                    break;
+                                }else{
+                                    temp.fav = false
+                                }
+                            }
+                            this.product = temp;
+                        })   
+                        .catch(err => console.log(err));
+
+                    this.getMenProducts();
+
                     window.scrollBy({ 
-                        top: -5000, // could be negative value
+                        top: -5000,
                         left: 0, 
                         behavior: 'smooth' 
                     });
+
                     this.cartProducts = this.cartProductsGetter;
                 }
             }
@@ -361,9 +378,13 @@ export default {
         },
         favouriteProductsGetter(newVal, oldVal){
             if(newVal !== oldVal){
-                this.favouriteProducts = this.favouriteProductsGetter
+                this.favouriteProducts = this.favouriteProductsGetter;
+                let ProdDeleted = newVal.filter(prod => prod.id === this.product.id).length;
+                if(ProdDeleted === 0){
+                    this.product.fav = false;
+                }
             }
-        }
+        },
     }
 }
 </script>
