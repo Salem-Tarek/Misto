@@ -3,7 +3,7 @@
     <div class="section-header d-flex justify-space-between align-center my-4">
         <h2 class="text-uppercase font-weight-medium">Women's</h2>  
     </div>
-    <Products :prodsArray="womenProducts" :ShowFilter="false" />
+    <Products :prodsArray="fourWomenProducts" :ShowFilter="false" />
     <v-btn block to="/women" class="text-uppercase button mt-6 mb-12" elevation="0">See More</v-btn>
   </div>
 </template>
@@ -18,7 +18,14 @@ export default {
         Products
     },
     computed:{
-      ...mapGetters(['womenProducts'])
+      ...mapGetters(['womenProducts']),
+      fourWomenProducts(){
+        if(this.womenProducts.length > 4){
+          return this.womenProducts.slice(0, 4)
+        }else{
+          return this.womenProducts
+        }
+      }
     },
     methods:{
       ...mapActions(['getFourWomenProducts']),

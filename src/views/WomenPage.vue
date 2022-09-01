@@ -21,7 +21,7 @@ export default {
         Products
     },
     computed:{
-      ...mapGetters(['womenProducts'])
+      ...mapGetters(['womenProducts']),
     },
     methods:{
       ...mapActions(['getWomenProducts']),

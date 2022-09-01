@@ -110,7 +110,7 @@
                                     <router-link style="color:rgba(0, 0, 0, 0.6)" to="/blog">Blog</router-link>
                                 </v-list-item-subtitle>
                             </v-list-item>
-                            <v-list-item>
+                            <v-list-item disabled>
                                 <v-list-item-subtitle style="letter-spacing: 1px">
                                     <router-link style="color:rgba(0, 0, 0, 0.6)" to="/faqs">FAQs</router-link>
                                 </v-list-item-subtitle>

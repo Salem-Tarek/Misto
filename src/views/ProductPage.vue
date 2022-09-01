@@ -91,7 +91,7 @@
                                 @click="addProductToFavouriteList(product.id)" 
                                 >{{ product.fav ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
                             </template>
-                            <span>{{  !product.fav ? 'Add To' : 'Remove From' }} Favourite List</span>
+                            <span>{{  product.fav ? 'Remove From' : 'Add To' }} Favourite List</span>
                         </v-tooltip>
                     </div>
                     <v-divider></v-divider>
@@ -210,7 +210,7 @@
             </v-row>
             <div class="related_products my-4">
                 <h2 class="my-5">Related Products</h2>
-                <products :maxProdsNum="4" :prodsArray="menProducts" :ShowRatingNumber="false" :ShowFilter="false" />
+                <products :maxProdsNum="4" :prodsArray="relatedProducts" :ShowRatingNumber="false" :ShowFilter="false" />
             </div>
         </div>
     </v-container>
@@ -254,14 +254,15 @@ export default {
 
             cartProducts: [],
             favouriteProducts: [],
+            relatedProducts: [],
 
         }
     },
     computed:{
-      ...mapGetters(['allProducts', 'cartProductsGetter', 'favouriteProductsGetter', 'menProducts']),
+      ...mapGetters(['allProducts', 'cartProductsGetter', 'favouriteProductsGetter']),
     },
     methods:{
-        ...mapActions(['getAllProducts', 'getCartProducts', 'getFavouriteProducts', 'getMenProducts', 'getTotalCost']),
+        ...mapActions(['getAllProducts', 'getCartProducts', 'getFavouriteProducts', 'getTotalCost']),
         addProductToCart(id){
             let cartProdData = this.allProducts.filter(prod => prod.id === id)[0];
             if(this.cartProducts.length){
@@ -321,10 +322,10 @@ export default {
                     }
                 }
                 this.product = temp;
+                this.relatedProducts = this.allProducts.filter(prod => prod.category === this.product.category).filter(prod => prod.id !== this.product.id).slice(0, 4);
             })   
             .catch(err => console.log(err));
 
-            this.getMenProducts();
 
             window.scrollBy({ 
                 top: -5000, // could be negative value
@@ -351,10 +352,10 @@ export default {
                                 }
                             }
                             this.product = temp;
+                            this.relatedProducts = this.allProducts.filter(prod => prod.category === this.product.category).filter(prod => prod.id !== this.product.id).slice(0, 4);
                         })   
                         .catch(err => console.log(err));
 
-                    this.getMenProducts();
 
                     window.scrollBy({ 
                         top: -5000,

@@ -97,10 +97,10 @@ export default {
         ProductsFilter
     },
     computed:{
-      ...mapGetters(['allProducts', 'cartProductsGetter', 'favouriteProductsGetter']),
+      ...mapGetters(['allProducts', 'cartProductsGetter', 'favouriteProductsGetter', 'menProducts', 'womenProducts', 'electronicsProducts', 'jeweleryProducts']),
     },
     methods:{
-        ...mapActions(['getAllProducts', 'getCartProducts', 'getFavouriteProducts', 'getTotalCost']),
+        ...mapActions(['getAllProducts', 'getCartProducts', 'getFavouriteProducts', 'getTotalCost', 'getWomenProducts', 'getMenProducts', 'getElectronicsProducts', 'getJeweleryProducts']),
         addProductToCart(id){
             let cartProdData = this.allProducts.filter(prod => prod.id === id)[0];
             if(this.cartProducts.length){
@@ -132,17 +132,28 @@ export default {
                     this.favouriteProducts[prodIndexInFavourite].fav = false
                     this.favouriteProducts = this.favouriteProducts.filter(prod => prod.id !== id)
                     this.getFavouriteProducts(this.favouriteProducts)
+                    this.updateProductsToFavouriteOrNot()
                 }else{
                     favProdData.fav = true;
                     this.favouriteProducts.unshift(favProdData)
                     this.getFavouriteProducts(this.favouriteProducts)
+                    this.updateProductsToFavouriteOrNot()
                 }
             }else {
                 favProdData.fav = true;
                 this.favouriteProducts.push(favProdData)
                 this.getFavouriteProducts(this.favouriteProducts)
+                this.updateProductsToFavouriteOrNot() 
             }
+
         },
+        updateProductsToFavouriteOrNot(){
+            this.getAllProducts() 
+            this.getWomenProducts() 
+            this.getMenProducts()
+            this.getElectronicsProducts()
+            this.getJeweleryProducts()
+        }
     },
     created(){
         this.getAllProducts();
@@ -159,9 +170,9 @@ export default {
         },
         favouriteProductsGetter(newVal, oldVal){
             if(newVal !== oldVal){
-                this.favouriteProducts = this.favouriteProductsGetter
+                this.favouriteProducts = this.favouriteProductsGetter;
             }
-        }
+        },
     },
 }
 </script>
