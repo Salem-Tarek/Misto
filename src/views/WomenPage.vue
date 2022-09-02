@@ -2,33 +2,70 @@
     <div class="women">
         <v-container>
             <h1 class="mb-4 font-weight-medium text-center">Women</h1>
-            <Products :prodsArray="womenProducts" :ShowRatingNumber="false" />
-            <!-- I Used it More than time Becasue I use Fake API with small Data -->
-            <!-- <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" />
-            <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" />
-            <Products :prodsArray="womenProducts" :ShowRatingNumber="false" :ShowFilter="false" /> -->
+            <ProductsFilter :filterdProductsNum="filteredProducts.length" @filterChanged="filterChanged" />
+            <Products :prodsArray="filteredProducts" :ShowRatingNumber="false" />
+            <h3 class="text-center" v-if="filteredProducts.length === 0">There Is No Filtered Products</h3>
         </v-container>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
 import Products from '../components/ProductPages/Products.vue'
+import ProductsFilter from '../components/ProductPages/ProductsFilter.vue'
+
 export default {
     name: "WomenPage",
+    data(){
+      return {
+        filteredProducts: this.womenProducts,
+      }
+    },
     components:{
-        Products
+        Products,
+        ProductsFilter
     },
     computed:{
       ...mapGetters(['womenProducts']),
     },
     methods:{
       ...mapActions(['getWomenProducts']),
+      filterChanged(val){ // Filtering Data Depend on Rate
+        
+        if(val.rateFilter === 0 && val.priceFilter.min === 0 && val.priceFilter.max === undefined){
+          // If There is No Filter
+          this.filteredProducts = this.womenProducts;
+        }else{
+          
+          if(val.rateFilter === 0){
+            // Price Filter Changes 
+            if(val.priceFilter.max){
+              this.filteredProducts = this.womenProducts.filter(prod => (prod.price >= val.priceFilter.min) && (prod.price <= val.priceFilter.max));
+            }else{
+              this.filteredProducts = this.womenProducts.filter(prod => prod.price >= val.priceFilter.min );
+            }
+
+          }else{
+            // Rate Filter Changes 
+            if(val.priceFilter.min > 0 && val.priceFilter.max){
+              this.filteredProducts = this.womenProducts.filter(prod => Math.floor(prod.rating.rate) === val.rateFilter).filter(prod => (prod.price >= val.priceFilter.min) && (prod.price <= val.priceFilter.max));
+            }else if(val.priceFilter.min > 0 && val.priceFilter.max === undefined) {
+              this.filteredProducts = this.womenProducts.filter(prod => Math.floor(prod.rating.rate) === val.rateFilter).filter(prod => prod.price >= val.priceFilter.min)
+            }else{
+              this.filteredProducts = this.womenProducts.filter(prod => Math.floor(prod.rating.rate) === val.rateFilter)
+            }
+
+          }
+        }
+      },
     },
     created(){
-      this.getWomenProducts();
-    }
+      this.filteredProducts = this.womenProducts;
+    },
+    async mounted(){
+      await this.getWomenProducts();
+      this.filteredProducts = this.womenProducts;
+    },
 }
 </script>
 

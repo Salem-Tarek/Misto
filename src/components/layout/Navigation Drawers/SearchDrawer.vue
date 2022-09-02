@@ -138,7 +138,7 @@ export default {
 
                 this.searchedProducts = this.allProducts.filter(prod => prod.title.toLowerCase().includes(this.search.toLowerCase()) && prod.category.toLowerCase().includes(chosenCategory.toLowerCase()));
 
-                this.inspiredProducts = this.allProducts.filter(prod => !prod.title.toLowerCase().includes(this.search.toLowerCase())).filter(filteredProd => filteredProd.category.toLowerCase().includes(chosenCategory.toLowerCase()))
+                this.inspiredProducts = this.allProducts.filter(filteredProd => filteredProd.category.toLowerCase().includes(chosenCategory.toLowerCase())).filter(prod => !prod.title.toLowerCase().includes(this.search.toLowerCase()))
             }
             // console.log(chosenCategory);
         },

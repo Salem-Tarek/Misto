@@ -92,8 +92,6 @@ export default {
     name: "Navbar",
     data(){
         return {
-            favNum: 2,
-            // cartNum: 2,
             CartNavigationDrawerProp: this.CartNavigationDrawerProp,
             SearchNavigationDrawerProp: this.SearchNavigationDrawerProp,
             LogInNavigationDrawerProp: this.LogInNavigationDrawerProp,

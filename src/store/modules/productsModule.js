@@ -36,8 +36,7 @@ const actions = {
         commit('getAllProducts', response.data)
     },
     async getMenProducts ({ commit }){
-        let response;
-        response = await axios.get(`https://fakestoreapi.com/products/category/men's clothing`);
+        let response = await axios.get(`https://fakestoreapi.com/products/category/men's clothing`);
         commit('getMenProducts', response.data)
     },
     async getWomenProducts ({ commit }){

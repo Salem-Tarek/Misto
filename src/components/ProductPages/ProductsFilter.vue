@@ -39,7 +39,7 @@
             </v-expansion-panel>
         </v-expansion-panels>
         <div class="selectedFilters px-8 d-flex align-center" v-if="isFiltered">
-            <p class="subtitle-2 font-weight-bold mb-0 mr-4">4 items Found</p>
+            <p class="subtitle-2 font-weight-bold mb-0 mr-4">{{ filterdProductsNum }} {{ filterdProductsNum === 1 ? 'item' : 'items' }} Found</p>
             <v-btn depressed x-small class="mr-4 d-flex align-center" @click="selectedRate = rated[0];selectedPrice = price[0]">
                 <v-icon x-small class="mr-1">mdi-close</v-icon>
                 <span class="grey--text">Clear All</span>
@@ -72,13 +72,18 @@ export default {
             selectedRate: {text: "All", value: 0},
             price:[
                 {text: "All", value: {min: 0}},
-                {text: "$ < 10", value: {min: 0 , max: 10}},
+                {text: "$ < 10", value: {min: 1 , max: 10}},
                 {text: "$ 10 - 50", value: {min: 10 , max: 50}},
                 {text: "$ 50 - 100", value: {min: 50 , max: 100}},
                 {text: "$ 100 - 500", value: {min: 100 , max: 500}},
                 {text: "$ > 500", value: {min: 500}},
             ],
             selectedPrice: {text: "All", value: {min: 0}},
+        }
+    },
+    props:{
+        filterdProductsNum: {
+            type: Number,
         }
     },
     computed:{
@@ -90,6 +95,18 @@ export default {
             }
         },
 
+    },
+    watch:{
+        selectedRate(newVal, oldVal){
+            if(newVal.text != oldVal.text){
+                this.$emit('filterChanged', { rateFilter: this.selectedRate.value, priceFilter: this.selectedPrice.value })
+            }
+        },
+        selectedPrice(newVal, oldVal){
+            if(newVal.text != oldVal.text){
+                this.$emit('filterChanged', { rateFilter: this.selectedRate.value, priceFilter: this.selectedPrice.value })
+            }
+        },
     }
 }
 </script>

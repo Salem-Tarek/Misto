@@ -1,6 +1,6 @@
 <template>
   <div class="products py-5">
-    <ProductsFilter v-if="ShowFilter" />
+    
     <v-row>
         <template v-for="(product) in prodsArray">
             <v-col cols="12" sm="6" md="4" lg="3" :key="product.id">
@@ -27,7 +27,6 @@
                                     :value="product.rating.rate"
                                     color="amber"
                                     dense
-                                    half-increments
                                     readonly
                                     size="14"
                                     ></v-rating>
@@ -65,7 +64,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ProductsFilter from './ProductsFilter.vue'
 
 export default {
     name: "Products",
@@ -73,8 +71,10 @@ export default {
         return {
             colors: ['black', 'white', 'blue', 'grey'],
             sizes: ['XS', 'S', 'M', 'L'],
+
             cartProducts: [],
             favouriteProducts: [],
+
         }
     },
     props:{
@@ -85,16 +85,6 @@ export default {
             type: Boolean,
             default: true
         },
-        ShowFilter: {
-            type: Boolean,
-            default: true
-        },
-        // maxProdsNum:{
-        //     type: Number
-        // }
-    },
-    components:{
-        ProductsFilter
     },
     computed:{
       ...mapGetters(['allProducts', 'cartProductsGetter', 'favouriteProductsGetter', 'menProducts', 'womenProducts', 'electronicsProducts', 'jeweleryProducts']),
@@ -153,7 +143,7 @@ export default {
             this.getMenProducts()
             this.getElectronicsProducts()
             this.getJeweleryProducts()
-        }
+        },
     },
     created(){
         this.getAllProducts();

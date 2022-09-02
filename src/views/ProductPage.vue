@@ -353,15 +353,14 @@ export default {
                             }
                             this.product = temp;
                             this.relatedProducts = this.allProducts.filter(prod => prod.category === this.product.category).filter(prod => prod.id !== this.product.id).slice(0, 4);
+
+                            window.scrollBy({ 
+                                top: -5000,
+                                left: 0, 
+                                behavior: 'smooth' 
+                            });
                         })   
                         .catch(err => console.log(err));
-
-
-                    window.scrollBy({ 
-                        top: -5000,
-                        left: 0, 
-                        behavior: 'smooth' 
-                    });
 
                     this.cartProducts = this.cartProductsGetter;
                 }
