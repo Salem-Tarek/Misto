@@ -59,9 +59,10 @@ const actions = {
         commit('getCartProducts', cartProducts)
         localStorage.setItem('mistoCartProducts', JSON.stringify(cartProducts))
     },
-    getFavouriteProducts ({ commit }, favouriteProducts){
-        commit('getFavoutiteProducts', favouriteProducts)
+    async getFavouriteProducts ({ commit, getters }, favouriteProducts){
+        await commit('getFavoutiteProducts', favouriteProducts)
         localStorage.setItem('mistoFavouriteProducts', JSON.stringify(favouriteProducts))
+        commit('getWomenProducts', getters.womenProducts)
     },
     getSearchedProducts ({ commit }, SearchedProducts){
         commit('getSearchedProducts', SearchedProducts)
@@ -72,7 +73,17 @@ const actions = {
 }
 
 const mutations = {
-    getAllProducts: (state, allProducts) => state.allProducts = allProducts,
+    getAllProducts: (state, allProducts) => {
+        for(let product of allProducts){
+            product.fav = false;
+            for(let favProduct of state.favouriteProducts){
+                if( product.id === favProduct.id){
+                    product.fav = true;
+                }
+            }
+        }
+        state.allProducts = allProducts
+    },
     getMenProducts: (state, menProducts) => {
         for(let product of menProducts){
             product.fav = false;
@@ -93,7 +104,7 @@ const mutations = {
                 }
             }
         }
-        state.womenProducts = womenProducts
+        state.womenProducts = womenProducts;
     },
     getElectronicsProducts: (state, electronicsProducts) => {
         for(let product of electronicsProducts){

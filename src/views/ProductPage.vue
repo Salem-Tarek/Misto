@@ -210,7 +210,7 @@
             </v-row>
             <div class="related_products my-4">
                 <h2 class="my-5">Related Products</h2>
-                <products :maxProdsNum="4" :prodsArray="relatedProducts" :ShowRatingNumber="false" :ShowFilter="false" />
+                <products :maxProdsNum="4" :prodsArray="relatedProducts" :ShowRatingNumber="false" :ShowFilter="false" @prods-array-changed="changeProdArray" />
             </div>
         </div>
     </v-container>
@@ -308,6 +308,10 @@ export default {
             }
 
         },
+        async changeProdArray(){
+            await this.getAllProducts();
+            this.relatedProducts = this.allProducts.filter(prod => prod.category === this.product.category).filter(prod => prod.id !== this.product.id).slice(0, 4);
+        }
     },
     created(){
         axios.get(`https://fakestoreapi.com/products/${this.$route.params.id}`)

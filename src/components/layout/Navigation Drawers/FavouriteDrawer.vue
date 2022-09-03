@@ -28,7 +28,7 @@
                         <v-list-item-title class="subtitle-1 grey--text">{{ favouriteProduct.title }}</v-list-item-title>
                         <v-list-item-subtitle class="black--text mb-5 body-2">{{ favouriteProduct.category }}</v-list-item-subtitle>
                         <div class="cart-item-info d-flex justify-space-between align-center">
-                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">$ {{ favouriteProduct.price }}</p>
+                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">$ {{ favouriteProduct.price.toFixed(2) }}</p>
                             <v-spacer></v-spacer>
                             <v-icon @click.prevent="deleteFavouriteProduct(favouriteProduct.id)">mdi-trash-can-outline</v-icon>
                         </div>
@@ -60,7 +60,7 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['favouriteProductsGetter'])
+        ...mapGetters(['favouriteProductsGetter', 'womenProducts'])
     },
     methods:{
         ...mapActions(['getAllProducts', 'getFavouriteProducts', 'getFourWomenProducts', 'getWomenProducts', 'getMenProducts', 'getElectronicsProducts', 'getJeweleryProducts']),
@@ -77,6 +77,7 @@ export default {
             this.favouriteProducts = this.favouriteProductsGetter.filter(prod => prod.id !== id);
             this.getFavouriteProducts(this.favouriteProducts);
             this.updateProductsToFavouriteOrNot()
+            // this.$emit('prods-array-changed', this.favouriteProducts)
         },
         updateProductsToFavouriteOrNot(){
             if(this.$route.name === "WomenPage"){
@@ -99,7 +100,7 @@ export default {
     },
     created(){
         this.favouriteProducts = this.favouriteProductsGetter;
-    }
+    },
 }   
 </script>
 

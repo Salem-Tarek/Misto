@@ -1,6 +1,5 @@
 <template>
   <div class="products py-5">
-    
     <v-row>
         <template v-for="(product) in prodsArray">
             <v-col cols="12" sm="6" md="4" lg="3" :key="product.id">
@@ -113,27 +112,32 @@ export default {
                 this.getTotalCost(this.cartProducts)
             }
         },
-        addProductToFavouriteList(id){
+        async addProductToFavouriteList(id){
             let favProdData = this.allProducts.filter(prod => prod.id === id)[0];
+            favProdData.fav = false;
             if(this.favouriteProducts.length){
                 const prodIndexInFavourite = this.favouriteProducts.findIndex(prod => prod.id === id);
                 if(prodIndexInFavourite >= 0){ // Means This Product Already Exist
                     // alert('This Product Exists')
-                    this.favouriteProducts[prodIndexInFavourite].fav = false
+                    this.favouriteProducts[prodIndexInFavourite].fav = false;
+                    // console.log(this.favouriteProducts[prodIndexInFavourite]);
                     this.favouriteProducts = this.favouriteProducts.filter(prod => prod.id !== id)
                     this.getFavouriteProducts(this.favouriteProducts)
-                    this.updateProductsToFavouriteOrNot()
+                    await this.updateProductsToFavouriteOrNot()
+                    this.$emit('prods-array-changed', this.favouriteProducts)
                 }else{
                     favProdData.fav = true;
                     this.favouriteProducts.unshift(favProdData)
                     this.getFavouriteProducts(this.favouriteProducts)
-                    this.updateProductsToFavouriteOrNot()
+                    await this.updateProductsToFavouriteOrNot()
+                    this.$emit('prods-array-changed', this.favouriteProducts)
                 }
             }else {
                 favProdData.fav = true;
                 this.favouriteProducts.push(favProdData)
                 this.getFavouriteProducts(this.favouriteProducts)
-                this.updateProductsToFavouriteOrNot() 
+                await this.updateProductsToFavouriteOrNot()
+                this.$emit('prods-array-changed', this.favouriteProducts)
             }
 
         },
