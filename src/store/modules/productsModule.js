@@ -62,7 +62,11 @@ const actions = {
     async getFavouriteProducts ({ commit, getters }, favouriteProducts){
         await commit('getFavoutiteProducts', favouriteProducts)
         localStorage.setItem('mistoFavouriteProducts', JSON.stringify(favouriteProducts))
+        commit('getAllProducts', getters.allProducts)
+        commit('getMenProducts', getters.menProducts)
         commit('getWomenProducts', getters.womenProducts)
+        commit('getElectronicsProducts', getters.electronicsProducts)
+        commit('getJeweleryProducts', getters.jeweleryProducts)
     },
     getSearchedProducts ({ commit }, SearchedProducts){
         commit('getSearchedProducts', SearchedProducts)

@@ -109,7 +109,7 @@ export default {
             if((this.LogInNavigationDrawerProp == true) && (this.LogInNavigationDrawerPropClone == false)){
                 this.$emit('toggleLogInDrawerProp')
             }
-        }
+        },
     },
     watch:{
         LogInNavigationDrawerProp(newVal, oldVal){

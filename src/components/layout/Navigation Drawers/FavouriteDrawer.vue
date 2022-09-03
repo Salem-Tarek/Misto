@@ -65,7 +65,7 @@ export default {
     methods:{
         ...mapActions(['getAllProducts', 'getFavouriteProducts', 'getFourWomenProducts', 'getWomenProducts', 'getMenProducts', 'getElectronicsProducts', 'getJeweleryProducts']),
         localToggleCartDrawer(){
-            this.FavouriteNavigationDrawerPropClone = !this.FavouriteNavigationDrawerPropClone
+            this.FavouriteNavigationDrawerPropClone = !this.FavouriteNavigationDrawerPropClone;
             // this.$emit('toggleDrawerProp')
         },
         emitToggleCartDrawer(){
@@ -76,20 +76,7 @@ export default {
         deleteFavouriteProduct(id){
             this.favouriteProducts = this.favouriteProductsGetter.filter(prod => prod.id !== id);
             this.getFavouriteProducts(this.favouriteProducts);
-            this.updateProductsToFavouriteOrNot()
-            // this.$emit('prods-array-changed', this.favouriteProducts)
         },
-        updateProductsToFavouriteOrNot(){
-            if(this.$route.name === "WomenPage"){
-                this.getWomenProducts() 
-            }else{
-                this.getFourWomenProducts() 
-            }
-            this.getAllProducts() 
-            this.getMenProducts()
-            this.getElectronicsProducts()
-            this.getJeweleryProducts()
-        }
     },
     watch:{
         FavouriteNavigationDrawerProp(newVal, oldVal){
