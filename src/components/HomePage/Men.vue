@@ -3,7 +3,7 @@
     <div class="section-header d-flex justify-space-between align-center my-4">
       <h2 class="text-uppercase font-weight-medium">Men's</h2>
     </div>
-    <Products :prodsArray="menProducts" :prodsArrayLength="4" />
+    <Products :prodsArray="menProducts" @changeAlert="changeAlert" />
     <v-btn block to="/men" class="text-uppercase button mt-6 mb-12" elevation="0">See More</v-btn>
   </div>
 </template>
@@ -21,7 +21,10 @@ export default {
       ...mapGetters(['menProducts'])
     },
     methods:{
-      ...mapActions(['getMenProducts'])
+      ...mapActions(['getMenProducts']),
+      changeAlert(val){
+        this.$emit('changeAlert', val)
+      }
     },
     created(){
       this.getMenProducts();

@@ -22,7 +22,7 @@
             <v-list-item :ripple="false" class="mb-0" v-for="favouriteProduct in favouriteProductsGetter" :key="favouriteProduct.id">
                 <router-link :to="'/product-page/' + favouriteProduct.id" class="d-flex">
                     <v-list-item-avatar tile size="80">
-                        <v-img :src="favouriteProduct.image"></v-img>
+                        <v-img contain :src="favouriteProduct.image"></v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title class="subtitle-1 grey--text">{{ favouriteProduct.title }}</v-list-item-title>
@@ -76,6 +76,7 @@ export default {
         deleteFavouriteProduct(id){
             this.favouriteProducts = this.favouriteProductsGetter.filter(prod => prod.id !== id);
             this.getFavouriteProducts(this.favouriteProducts);
+            this.$emit('changeAlert', {isAdd: false, isFav: true})
         },
     },
     watch:{

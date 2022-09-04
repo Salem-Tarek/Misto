@@ -11,7 +11,7 @@
                 <!-- Cart Products Section -->
                 <template>
                     <v-list-item  v-for="product in cartProductsGetter" :key="product.id" :ripple="false" class="remove-after-pseudo-element pt-3 pb-4 mb-2 d-flex justify-space-between flex-column flex-sm-row" style="gap: 20px">
-                        <div class="item d-flex">
+                        <div class="img-info d-flex">
                             <v-list-item-avatar tile size="80">
                                 <v-img :src="product.image"></v-img>
                             </v-list-item-avatar>
@@ -110,6 +110,7 @@ export default {
             this.cartProducts = this.cartProductsGetter.filter(prod => prod.id !== id);
             this.getCartProducts(this.cartProducts)
             this.getTotalCost(this.cartProducts)
+            this.$emit('changeAlert', {isAdd: false, isFav: false})
         },
     },
     created(){
@@ -123,6 +124,12 @@ export default {
 .cart .remove-after-pseudo-element::after{
     display: none;
 }
+@media(min-width: 600px){
+    .cart .v-list .v-list-item > .img-info {
+        flex-basis: 400px !important;
+    }
+}
+
 
 .cart .v-list-item__content {
     max-width: 300px

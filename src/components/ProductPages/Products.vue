@@ -39,21 +39,19 @@
                             </div> -->
                         </v-card>
                 </router-link>
-                <div class="product-details">
-                    <div class="price_addToCart_Fav d-flex align-center my-2 justify-space-between">
-                        <v-btn dark tile class="mr-3" @click="addProductToCart(product.id)">Add To Cart</v-btn>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon
-                                v-bind="attrs"
-                                v-on="on"
-                                :class="{'red--text': product.fav}"
-                                @click="addProductToFavouriteList(product.id)" 
-                                >{{ product.fav ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
-                            </template>
-                            <span>{{ !product.fav ? 'Add To' : 'Remove From' }} Favourite List</span>
-                        </v-tooltip>
-                    </div>
+                <div class="product-details mx-auto price_addToCart_Fav d-flex align-center my-2 justify-space-between">
+                    <v-btn dark tile class="mr-3" @click="addProductToCart(product.id)">Add To Cart</v-btn>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon
+                            v-bind="attrs"
+                            v-on="on"
+                            :class="{'red--text': product.fav}"
+                            @click="addProductToFavouriteList(product.id)"
+                            >{{ product.fav ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
+                        </template>
+                        <span>{{ !product.fav ? 'Add To' : 'Remove From' }} Favourite List</span>
+                    </v-tooltip>
                 </div>
             </v-col>
         </template>
@@ -63,7 +61,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
 export default {
     name: "Products",
     data(){
@@ -73,6 +70,10 @@ export default {
 
             cartProducts: [],
             favouriteProducts: [],
+
+            snackbar : false,
+            isAdd: true,
+            isFav: true,
 
         }
     },
@@ -111,8 +112,11 @@ export default {
                 this.getCartProducts(this.cartProducts)
                 this.getTotalCost(this.cartProducts)
             }
+            this.$emit('changeAlert', {isAdd: true, isFav: false})
         },
         async addProductToFavouriteList(id){
+            this.isFav = true;
+            this.snackbar = true;
             let favProdData = this.allProducts.filter(prod => prod.id === id)[0];
             favProdData.fav = false;
             if(this.favouriteProducts.length){
@@ -120,6 +124,7 @@ export default {
                 if(prodIndexInFavourite >= 0){ // Means This Product Already Exist
                     // alert('This Product Exists')
                     this.favouriteProducts[prodIndexInFavourite].fav = false;
+                    this.$emit('changeAlert', {isAdd: false, isFav: true})
                     // console.log(this.favouriteProducts[prodIndexInFavourite]);
                     this.favouriteProducts = this.favouriteProducts.filter(prod => prod.id !== id)
                     this.getFavouriteProducts(this.favouriteProducts)
@@ -127,6 +132,7 @@ export default {
                     this.$emit('prods-array-changed', this.favouriteProducts)
                 }else{
                     favProdData.fav = true;
+                    this.$emit('changeAlert', {isAdd: true, isFav: true})
                     this.favouriteProducts.unshift(favProdData)
                     this.getFavouriteProducts(this.favouriteProducts)
                     await this.updateProductsToFavouriteOrNot()
@@ -134,12 +140,12 @@ export default {
                 }
             }else {
                 favProdData.fav = true;
+                this.$emit('changeAlert', {isAdd: true, isFav: true})
                 this.favouriteProducts.push(favProdData)
                 this.getFavouriteProducts(this.favouriteProducts)
                 await this.updateProductsToFavouriteOrNot()
                 this.$emit('prods-array-changed', this.favouriteProducts)
             }
-
         },
         updateProductsToFavouriteOrNot(){
             this.getAllProducts() 
@@ -190,6 +196,10 @@ export default {
 
 a{
     text-decoration: none
+}
+
+.product-details {
+    max-width: 380px;
 }
 
 .product-details .v-list .v-list-item {

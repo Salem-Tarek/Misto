@@ -21,7 +21,7 @@
             <template v-for="cartProduct in cartProductsGetter">
                 <v-list-item :ripple="false" class="mb-0" :key="'A' + cartProduct.id">
                     <v-list-item-avatar tile size="80">
-                        <v-img :src="cartProduct.image"></v-img>
+                        <v-img contain :src="cartProduct.image"></v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title class="body-2 grey--text">{{ cartProduct.title }}</v-list-item-title>
@@ -91,7 +91,7 @@ export default {
     data(){
         return {
             CartNavigationDrawerPropClone: this.CartNavigationDrawerProp,
-            cartProducts: []
+            cartProducts: [],
         }
     },
     props:{
@@ -134,6 +134,7 @@ export default {
             this.cartProducts = this.cartProductsGetter.filter(prod => prod.id !== id);
             this.getCartProducts(this.cartProducts)
             this.getTotalCost(this.cartProductsGetter)
+            this.$emit('changeAlert', {isAdd: false, isFav: false})
         }
     },
     watch:{

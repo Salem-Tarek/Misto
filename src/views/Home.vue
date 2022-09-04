@@ -3,8 +3,8 @@
     <v-container>
       <Categories />
       <Features />
-      <Women />
-      <Men />
+      <Women @changeAlert="changeAlert" />
+      <Men @changeAlert="changeAlert" />
       <OffersAndCollections />
       <Subscribe />
       <LatestBlogs />
@@ -30,6 +30,11 @@ export default {
     OffersAndCollections,
     Subscribe,
     LatestBlogs
+  },
+  methods:{
+    changeAlert(val){
+      this.$emit('changeAlert', val)
+    }
   }
 };
 </script>

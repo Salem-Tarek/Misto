@@ -3,7 +3,7 @@
         <v-container>
             <h1 class="mb-4 font-weight-medium text-center">Men</h1>
             <ProductsFilter :filterdProductsNum="filteredProducts.length" @filterChanged="filterChanged" />
-            <Products :prodsArray="filteredProducts" :ShowRatingNumber="false" @prods-array-changed="changeProdArray" />
+            <Products :prodsArray="filteredProducts" :ShowRatingNumber="false" @prods-array-changed="changeProdArray" @changeAlert="changeAlert" />
             <h3 class="text-center" v-if="filteredProducts.length === 0">There Is No Filtered Products</h3>
         </v-container>
     </div>
@@ -61,6 +61,9 @@ export default {
       async changeProdArray(){
         await this.getMenProducts();
         this.filteredProducts = this.menProducts;
+      },
+      changeAlert(val){
+        this.$emit('changeAlert', val)
       }
     },
     created(){

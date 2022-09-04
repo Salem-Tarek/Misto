@@ -12,7 +12,8 @@ const state = {
     totalCost: 0,
     shipping: 30,
     tax: 10,
-    discount: 0
+    discount: 0,
+    isShowSnackbar: false
 }
 
 const getters = {
@@ -28,6 +29,7 @@ const getters = {
     shippingGetter: state => state.shipping,
     taxGetter: state => state.tax,
     discountGetter: state => state.discount,
+    isShowSnackbarGetter: state => state.isShowSnackbar,
 }
 
 const actions = {
@@ -73,6 +75,12 @@ const actions = {
     },
     getTotalCost ({ commit }, cartProductsArray){
         commit('getTotalCost', cartProductsArray)
+    },
+    showSnackbar({commit}){
+        commit('showSnackbar')
+    },
+    hideSnackbar({commit}){
+        commit('hideSnackbar')
     },
 }
 
@@ -140,7 +148,9 @@ const mutations = {
         for(let cartProduct of cartProductsArray){
             state.totalCost += cartProduct.quantity * cartProduct.price;
         }
-    }
+    },
+    showSnackbar: state => state.isShowSnackbar = true,
+    hideSnackbar: state => state.isShowSnackbar = false,
 }
 
 export default {

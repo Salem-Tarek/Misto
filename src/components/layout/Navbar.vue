@@ -67,7 +67,7 @@
     <NavbarDrawer :NavbarNavigationDrawerProp="NavbarNavigationDrawerProp" @toggleNavbarDrawerProp="toggleNavbarDrawer" />
     
     <!-- Cart Navigation Drawer -->
-    <CartDrawer :CartNavigationDrawerProp="CartNavigationDrawerProp" @toggleCartDrawerProp="toggleCartDrawer()" />
+    <CartDrawer :CartNavigationDrawerProp="CartNavigationDrawerProp" @toggleCartDrawerProp="toggleCartDrawer()" @changeAlert="changeAlert" />
 
     <!-- Search Navigation Drawer -->
     <SearchDrawer :SearchNavigationDrawerProp="SearchNavigationDrawerProp" @toggleSearchDrawerProp="toggleSearchDrawer()" />
@@ -76,7 +76,10 @@
     <LogInDrawer :LogInNavigationDrawerProp="LogInNavigationDrawerProp" @toggleLogInDrawerProp="toggleLogInDrawer()" />
 
     <!-- Favourite Navigation Drawer -->
-    <FavouriteDrawer :FavouriteNavigationDrawerProp="FavouriteNavigationDrawerProp" @toggleFavouriteDrawerProp="toggleFavouriteDrawer()" />
+    <FavouriteDrawer :FavouriteNavigationDrawerProp="FavouriteNavigationDrawerProp" @toggleFavouriteDrawerProp="toggleFavouriteDrawer()" @changeAlert="changeAlert" />
+    
+    <!-- Alert -->
+    <Alert :show="snackbar" :isFav="isFav" :isAdd="isAdd" @hideSnackbar="snackbar = false" v-if="snackbar"/>
 
   </nav>
 </template>
@@ -88,6 +91,7 @@ import SearchDrawer from './Navigation Drawers/SearchDrawer.vue'
 import LogInDrawer from './Navigation Drawers/LogInDrawer.vue'
 import FavouriteDrawer from './Navigation Drawers/FavouriteDrawer.vue'
 import NavbarDrawer from './Navigation Drawers/NavbarDrawer.vue'
+import Alert from './Alert.vue'
 export default {
     name: "Navbar",
     data(){
@@ -98,6 +102,10 @@ export default {
             FavouriteNavigationDrawerProp: this.FavouriteNavigationDrawerProp,
             NavbarNavigationDrawerProp: this.NavbarNavigationDrawerProp,
             favourite: false,
+
+            snackbar : false,
+            isAdd: true,
+            isFav: true,
         }
     },
     components:{
@@ -105,7 +113,8 @@ export default {
         SearchDrawer,
         LogInDrawer,
         FavouriteDrawer,
-        NavbarDrawer
+        NavbarDrawer,
+        Alert,
     },
     methods:{
         ...mapActions(['getAllProducts']),
@@ -124,6 +133,9 @@ export default {
         toggleNavbarDrawer(){
             this.NavbarNavigationDrawerProp = !this.NavbarNavigationDrawerProp
         },
+        changeAlert(val){
+            this.$emit('changeAlert', val)
+        }
     },
     computed:{
         ...mapGetters(['cartProductsGetter', 'favouriteProductsGetter'])

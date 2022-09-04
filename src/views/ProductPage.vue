@@ -210,7 +210,7 @@
             </v-row>
             <div class="related_products my-4">
                 <h2 class="my-5">Related Products</h2>
-                <products :maxProdsNum="4" :prodsArray="relatedProducts" :ShowRatingNumber="false" :ShowFilter="false" @prods-array-changed="changeProdArray" />
+                <products :prodsArray="relatedProducts" :ShowRatingNumber="false" :ShowFilter="false" @prods-array-changed="changeProdArray" @changeAlert="changeAlert" />
             </div>
         </div>
     </v-container>
@@ -222,8 +222,10 @@ import axios from "axios"
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  components: { Products },
     name: "ProductPage",
+    components: { 
+        Products,
+     },
     data(){
         return {
             breadcrumbItems: [
@@ -282,6 +284,7 @@ export default {
                 this.getCartProducts(this.cartProducts)
             }
             this.getTotalCost(this.cartProductsGetter)
+            this.$emit('changeAlert', {isAdd: true, isFav: false})
         },
         addProductToFavouriteList(id){
             let favProdData = this.product;
@@ -292,25 +295,30 @@ export default {
                 if(prodIndexInFavourite >= 0){ // Means This Product Already Exist
                     // alert('This Product Exists')
                     this.favouriteProducts[prodIndexInFavourite].fav = false;
+                    this.$emit('changeAlert', {isAdd: false, isFav: true})
                     this.product = this.favouriteProducts[prodIndexInFavourite];
                     this.favouriteProducts = this.favouriteProducts.filter(prod => prod.id !== id)
                     this.getFavouriteProducts(this.favouriteProducts)
                 }else{
                     favProdData.fav = true;
+                    this.$emit('changeAlert', {isAdd: true, isFav: true})
                     this.favouriteProducts.unshift(favProdData)
                     this.getFavouriteProducts(this.favouriteProducts)
                 }
 
             }else {
                 favProdData.fav = true;
+                this.$emit('changeAlert', {isAdd: true, isFav: true})
                 this.favouriteProducts.push(favProdData)
                 this.getFavouriteProducts(this.favouriteProducts)
             }
-
         },
         async changeProdArray(){
             await this.getAllProducts();
             this.relatedProducts = this.allProducts.filter(prod => prod.category === this.product.category).filter(prod => prod.id !== this.product.id).slice(0, 4);
+        },
+        changeAlert(val){
+            this.$emit('changeAlert', val)
         }
     },
     created(){
