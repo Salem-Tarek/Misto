@@ -13,7 +13,7 @@ const state = {
     shipping: 30,
     tax: 10,
     discount: 0,
-    isShowSnackbar: false
+    users: []
 }
 
 const getters = {
@@ -29,7 +29,7 @@ const getters = {
     shippingGetter: state => state.shipping,
     taxGetter: state => state.tax,
     discountGetter: state => state.discount,
-    isShowSnackbarGetter: state => state.isShowSnackbar,
+    usersGetter: state => state.users,
 }
 
 const actions = {
@@ -76,11 +76,9 @@ const actions = {
     getTotalCost ({ commit }, cartProductsArray){
         commit('getTotalCost', cartProductsArray)
     },
-    showSnackbar({commit}){
-        commit('showSnackbar')
-    },
-    hideSnackbar({commit}){
-        commit('hideSnackbar')
+    async getUsers ({ commit }){
+        const response = await axios.get(`https://fakestoreapi.com/users`);
+        commit('getUsers', response.data)
     },
 }
 
@@ -149,8 +147,7 @@ const mutations = {
             state.totalCost += cartProduct.quantity * cartProduct.price;
         }
     },
-    showSnackbar: state => state.isShowSnackbar = true,
-    hideSnackbar: state => state.isShowSnackbar = false,
+    getUsers: (state, users) => state.users = users,
 }
 
 export default {

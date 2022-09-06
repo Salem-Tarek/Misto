@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.c1cfa4eb0318413589a8b24a00a999c5.js"
+  "/Misto/precache-manifest.9bac16cd4c007245656a54990c90095f.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "misto"});
