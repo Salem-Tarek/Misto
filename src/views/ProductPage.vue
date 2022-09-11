@@ -240,7 +240,7 @@ export default {
                     href: '/women',
                 },
                 {
-                    text: "Women's tracksuit Q109",
+                    text: "Product Page",
                     disabled: true,
                     href: '/product-page',
                 },
@@ -337,7 +337,6 @@ export default {
                 this.relatedProducts = this.allProducts.filter(prod => prod.category === this.product.category).filter(prod => prod.id !== this.product.id).slice(0, 4);
             })   
             .catch(err => console.log(err));
-
 
             window.scrollBy({ 
                 top: -5000, // could be negative value

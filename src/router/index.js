@@ -33,6 +33,16 @@ const routes = [
     path: "/all-products",
     name: "AllProducts",
     component: AllProducts,
+    beforeEnter: (to, from, next) => {
+      let isLoged = JSON.parse(localStorage.getItem('mistoUser')) || {};
+      if(Object.keys(isLoged).length){
+        next()
+      }else{
+        next(false)
+        router.push('/')
+        alert("Please Login First")
+      }
+    },
   },
   {
     path: "/women",

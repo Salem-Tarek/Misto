@@ -42,7 +42,7 @@
                                 ></v-text-field>
                                 <v-icon :disabled="cartProduct.quantity >= 100" @click="cartProduct.quantity++;incQuantity()">mdi-plus</v-icon>
                             </div>
-                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">${{ cartProduct.price.toFixed(2) }}</p>
+                            <p class="subtitle-1 font-weight-bold mb-0 ml-2">${{ parseFloat(cartProduct.price).toFixed(2) }}</p>
                             <v-spacer></v-spacer>
                             <v-icon @click="deleteCartProduct(cartProduct.id)">mdi-trash-can-outline</v-icon>
                         </div>

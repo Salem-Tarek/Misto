@@ -36,7 +36,7 @@
                             <v-icon :disabled="product.quantity >= 100" @click="product.quantity++;incQuantity()">mdi-plus</v-icon>
                         </div>
                         <v-divider class="d-sm-none"></v-divider>
-                        <p class="subtitle-1 font-weight-bold mb-0 ml-2">${{ product.price.toFixed(2) }}</p>
+                        <p class="subtitle-1 font-weight-bold mb-0 ml-2">${{ parseFloat(product.price).toFixed(2) }}</p>
                         <v-divider class="d-sm-none"></v-divider>
                         <v-icon @click="deleteCartProduct(product.id)">mdi-trash-can-outline</v-icon>
                     </v-list-item>

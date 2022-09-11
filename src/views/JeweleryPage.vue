@@ -26,10 +26,13 @@ export default {
         ProductsFilter
     },
     computed:{
-      ...mapGetters(['jeweleryProducts'])
+      ...mapGetters(['allProducts']),
+      jeweleryProducts(){
+        return this.allProducts.filter(prod => prod.category === "jewelery")
+      }
     },
     methods:{
-      ...mapActions(['getJeweleryProducts']),
+      ...mapActions(['getAllProducts']),
       filterChanged(val){ // Filtering Data Depend on Rate
         
         if(val.rateFilter === 0 && val.priceFilter.min === 0 && val.priceFilter.max === undefined){
@@ -59,7 +62,7 @@ export default {
         }
       },
       async changeProdArray(){
-        await this.getJeweleryProducts();
+        await this.getAllProducts();
         this.filteredProducts = this.jeweleryProducts;
       },
       changeAlert(val){
@@ -70,7 +73,7 @@ export default {
       this.filteredProducts = this.jeweleryProducts;
     },
     async mounted(){
-      await this.getJeweleryProducts();
+      await this.getAllProducts();
       this.filteredProducts = this.jeweleryProducts;
     },
 }

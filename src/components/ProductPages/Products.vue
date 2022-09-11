@@ -18,7 +18,7 @@
 
                             <v-card-text class="pa-0 d-flex justify-space-between align-center">
                                 <v-card-subtitle class="pl-2 black--text font-weight-bold">
-                                    <span>${{ product.price.toFixed(2) }}</span> 
+                                    <span>${{ parseFloat(product.price).toFixed(2) }}</span> 
                                     <span v-if="product.discount" class="ml-1 grey--text text-decoration-line-through body-2 font-weight-black">$76.00</span>
                                 </v-card-subtitle>
                                 <div class="rating d-flex">

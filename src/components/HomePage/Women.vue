@@ -18,7 +18,16 @@ export default {
         Products
     },
     computed:{
-      ...mapGetters(['womenProducts']),
+      ...mapGetters(['allProducts']),
+      womenProducts(){
+        let womenProducts = this.allProducts.filter(prod => prod.category === "women's clothing");
+        if(womenProducts.length > 4){
+          return womenProducts.slice(0, 4)
+        }else{
+          return womenProducts
+        }
+        
+      },
       fourWomenProducts(){
         if(this.womenProducts.length > 4){
           return this.womenProducts.slice(0, 4)
@@ -28,13 +37,20 @@ export default {
       }
     },
     methods:{
-      ...mapActions(['getFourWomenProducts']),
+      ...mapActions(['getAllProducts']),
       changeAlert(val){
         this.$emit('changeAlert', val)
       }
     },
     created(){
-      this.getFourWomenProducts();
+      this.getAllProducts();
+    },
+    watch:{
+      allProducts(newVal, oldVal){
+        if(newVal !== oldVal){
+          this.getAllProducts();
+        }
+      }
     }
 }
 </script>

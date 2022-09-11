@@ -215,12 +215,14 @@ export default {
             this.alertText = `Logged Out Successfully`
             this.loggedUserData = {};
             localStorage.setItem('mistoUser', JSON.stringify(this.loggedUserData));
-            if(this.$route.path === '/dashboard'){
+            if(this.$route.path === '/all-products'){
                 this.$router.push('/');
             }
         },
         resetProducts(){
             localStorage.removeItem('mistoAllProducts')
+            ////////////////////////////
+            this.$router.push('/all-products');
         }
     },
     watch:{

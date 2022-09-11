@@ -162,7 +162,7 @@ export default {
                     }
                     this.addProduct(prodData)
                     this.$emit('hideOverlay');
-                }else{
+                }else{ // Edit Product
                     let prodData = {
                         title: this.title,
                         description: this.description,
@@ -175,6 +175,9 @@ export default {
                         },
                     }
                     prodData.id = JSON.parse(localStorage.getItem('mistoEditedProduct')).id;
+                    prodData.rating.rate = JSON.parse(localStorage.getItem('mistoEditedProduct')).rating.rate;
+                    prodData.rating.count = JSON.parse(localStorage.getItem('mistoEditedProduct')).rating.count;
+
                     this.updateProduct(prodData)
                     this.$emit('hideOverlay');
                     let myObj = {};

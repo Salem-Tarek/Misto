@@ -18,7 +18,7 @@ export default {
     name: "ElectronicsPage",
     data(){
       return {
-        filteredProducts: this.electronicsProducts
+        filteredProducts: this.electronicsProducts,
       }
     },
     components:{
@@ -26,11 +26,14 @@ export default {
         ProductsFilter,
     },
     computed:{
-      ...mapGetters(['electronicsProducts'])
+      ...mapGetters(['allProducts']),
+      electronicsProducts(){
+        return this.allProducts.filter(prod => prod.category === "electronics")
+      }
     },
     methods:{
-      ...mapActions(['getElectronicsProducts']),
-      filterChanged(val){ // Filtering Data Depend on Rate
+      ...mapActions(['getAllProducts']),
+      filterChanged(val){ // Filtering Data Depend on Rate and Price
         
         if(val.rateFilter === 0 && val.priceFilter.min === 0 && val.priceFilter.max === undefined){
           // If There is No Filter
@@ -59,7 +62,7 @@ export default {
         }
       },
       async changeProdArray(){
-        await this.getElectronicsProducts();
+        await this.getAllProducts();
         this.filteredProducts = this.electronicsProducts;
       },
       changeAlert(val){
@@ -70,7 +73,7 @@ export default {
       this.filteredProducts = this.electronicsProducts;
     },
     async mounted(){
-      await this.getElectronicsProducts();
+      await this.getAllProducts();
       this.filteredProducts = this.electronicsProducts;
     },
 }

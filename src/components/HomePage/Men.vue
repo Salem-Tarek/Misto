@@ -18,16 +18,26 @@ export default {
         Products,
     },
     computed:{
-      ...mapGetters(['menProducts'])
+      ...mapGetters(['allProducts']),
+      menProducts(){
+        return this.allProducts.filter(prod => prod.category === "men's clothing")
+      }
     },
     methods:{
-      ...mapActions(['getMenProducts']),
+      ...mapActions(['getAllProducts']),
       changeAlert(val){
         this.$emit('changeAlert', val)
       }
     },
     created(){
-      this.getMenProducts();
+      this.getAllProducts();
+    },
+    watch:{
+      allProducts(newVal, oldVal){
+        if(newVal !== oldVal){
+          this.getAllProducts();
+        }
+      }
     }
 }
 </script>

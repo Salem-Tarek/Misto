@@ -26,10 +26,13 @@ export default {
         ProductsFilter,
     },
     computed:{
-      ...mapGetters(['menProducts'])
+      ...mapGetters(['allProducts']),
+      menProducts(){
+        return this.allProducts.filter(prod => prod.category === "men's clothing")
+      }
     },
     methods:{
-      ...mapActions(['getMenProducts']),
+      ...mapActions(['getAllProducts']),
       filterChanged(val){ // Filtering Data Depend on Rate
         
         if(val.rateFilter === 0 && val.priceFilter.min === 0 && val.priceFilter.max === undefined){
@@ -59,7 +62,7 @@ export default {
         }
       },
       async changeProdArray(){
-        await this.getMenProducts();
+        await this.getAllProducts();
         this.filteredProducts = this.menProducts;
       },
       changeAlert(val){
@@ -70,7 +73,7 @@ export default {
       this.filteredProducts = this.menProducts;
     },
     async mounted(){
-      await this.getMenProducts();
+      await this.getAllProducts();
       this.filteredProducts = this.menProducts;
     },
 }
