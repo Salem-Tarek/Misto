@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import AllProducts from "../views/AllProducts.vue";
 import ProductPage from "../views/ProductPage.vue";
 import CartPage from "../views/CartPage.vue";
 import AboutPage from "../views/AboutPage.vue";
@@ -27,6 +28,11 @@ const routes = [
     path: "/contact",
     name: "ContactPage",
     component: ContactPage,
+  },
+  {
+    path: "/all-products",
+    name: "AllProducts",
+    component: AllProducts,
   },
   {
     path: "/women",

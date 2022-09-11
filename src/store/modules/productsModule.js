@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const state = {
-    allProducts: [],
+    allProducts: JSON.parse(localStorage.getItem('mistoAllProducts')) || [],
     menProducts: [],
     womenProducts: [],
     electronicsProducts: [],
@@ -13,7 +13,8 @@ const state = {
     shipping: 30,
     tax: 10,
     discount: 0,
-    users: []
+    users: [],
+    editedProduct: localStorage.getItem("mistoEditedProuct") || {},
 }
 
 const getters = {
@@ -30,12 +31,13 @@ const getters = {
     taxGetter: state => state.tax,
     discountGetter: state => state.discount,
     usersGetter: state => state.users,
+    editedProductGetter: state => state.editedProduct,
 }
 
 const actions = {
     async getAllProducts ({ commit }){
         const response = await axios.get('https://fakestoreapi.com/products');
-        commit('getAllProducts', response.data)
+        commit('getAllProducts', JSON.parse(localStorage.getItem('mistoAllProducts')) || response.data)
     },
     async getMenProducts ({ commit }){
         let response = await axios.get(`https://fakestoreapi.com/products/category/men's clothing`);
@@ -56,6 +58,19 @@ const actions = {
     async getJeweleryProducts ({ commit }){
         const response = await axios.get(`https://fakestoreapi.com/products/category/jewelery`);
         commit('getJeweleryProducts', response.data)
+    },
+    async addProduct({commit}, product) {
+        const response = await axios.post('https://fakestoreapi.com/products', product)
+        commit('addProduct', response.data)
+        console.log(response.data);
+    },
+    async deleteProduct ({ commit }, id){
+        await axios.delete(`https://fakestoreapi.com/products/${id}`);
+        commit('deleteProduct', id)
+    },
+    async updateProduct ({commit}, updatedProduct){
+        const response = await axios.patch(`https://jsonplaceholder.typicode.com/posts/${updatedProduct.id}`, updatedProduct);
+        commit('updateProduct', response.data)
     },
     getCartProducts ({ commit }, cartProducts){
         commit('getCartProducts', cartProducts)
@@ -80,6 +95,10 @@ const actions = {
         const response = await axios.get(`https://fakestoreapi.com/users`);
         commit('getUsers', response.data)
     },
+    editedProduct({commit}, editedProduct){
+        commit('editedProduct', editedProduct)
+        localStorage.setItem("mistoEditedProduct", JSON.stringify(editedProduct))
+    }
 }
 
 const mutations = {
@@ -92,7 +111,11 @@ const mutations = {
                 }
             }
         }
-        state.allProducts = allProducts
+        state.allProducts = allProducts;
+    },
+    deleteProduct: (state, id) => {
+        state.allProducts = state.allProducts.filter(product => product.id !== id);
+        localStorage.setItem('mistoAllProducts', JSON.stringify(state.allProducts))
     },
     getMenProducts: (state, menProducts) => {
         for(let product of menProducts){
@@ -148,6 +171,19 @@ const mutations = {
         }
     },
     getUsers: (state, users) => state.users = users,
+    editedProduct: (state, editedProduct) => state.editedProduct = editedProduct,
+    addProduct: (state, newProduct) => {
+        state.allProducts.unshift(newProduct);
+        localStorage.setItem('mistoAllProducts', JSON.stringify(state.allProducts))
+    },
+    updateProduct: (state, updatedProduct) => {
+        let productIndex = state.allProducts.findIndex(product => product.id == updatedProduct.id);
+        if(productIndex !== -1){
+            updatedProduct.id = state.allProducts[productIndex].id;
+            state.allProducts.splice(productIndex, 1, updatedProduct)
+        }
+        localStorage.setItem('mistoAllProducts', JSON.stringify(state.allProducts))
+    }
 }
 
 export default {

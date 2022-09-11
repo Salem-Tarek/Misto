@@ -61,7 +61,10 @@
                 </div>
             </div>
         </v-app-bar>
+        <AddProduct @hideOverlay="hideOverlay" :show="show" />
     </v-container>
+
+
 
     <!-- Navbar Navigation Drawer -->
     <NavbarDrawer :NavbarNavigationDrawerProp="NavbarNavigationDrawerProp" @toggleNavbarDrawerProp="toggleNavbarDrawer" />
@@ -72,14 +75,14 @@
     <!-- Search Navigation Drawer -->
     <SearchDrawer :SearchNavigationDrawerProp="SearchNavigationDrawerProp" @toggleSearchDrawerProp="toggleSearchDrawer()" />
 
-    <!-- LogIn Navigation Drawer -->
-    <LogInDrawer :LogInNavigationDrawerProp="LogInNavigationDrawerProp" @toggleLogInDrawerProp="toggleLogInDrawer()" />
+    <!-- LogIn Navigation Drawer show = true-->
+    <LogInDrawer @addProduct="showOverlay" :LogInNavigationDrawerProp="LogInNavigationDrawerProp" @toggleLogInDrawerProp="toggleLogInDrawer()" />
 
     <!-- Favourite Navigation Drawer -->
     <FavouriteDrawer :FavouriteNavigationDrawerProp="FavouriteNavigationDrawerProp" @toggleFavouriteDrawerProp="toggleFavouriteDrawer()" @changeAlert="changeAlert" />
     
     <!-- Alert -->
-    <Alert :show="snackbar" :isFav="isFav" :isAdd="isAdd" @hideSnackbar="snackbar = false" v-if="snackbar"/>
+    <Alert :show="snackbar" :isFav="isFav" :isAdd="isAdd" @hideSnackbar="snackbar = false" v-if="snackbar" />
 
   </nav>
 </template>
@@ -92,6 +95,8 @@ import LogInDrawer from './Navigation Drawers/LogInDrawer.vue'
 import FavouriteDrawer from './Navigation Drawers/FavouriteDrawer.vue'
 import NavbarDrawer from './Navigation Drawers/NavbarDrawer.vue'
 import Alert from './Alert.vue'
+import AddProduct from '../Dashboard/AddProduct.vue'
+
 export default {
     name: "Navbar",
     data(){
@@ -106,6 +111,8 @@ export default {
             snackbar : false,
             isAdd: true,
             isFav: true,
+
+            show: false
         }
     },
     components:{
@@ -115,6 +122,7 @@ export default {
         FavouriteDrawer,
         NavbarDrawer,
         Alert,
+        AddProduct
     },
     methods:{
         ...mapActions(['getAllProducts']),
@@ -135,13 +143,27 @@ export default {
         },
         changeAlert(val){
             this.$emit('changeAlert', val)
+        },
+        showOverlay(){
+            this.LogInNavigationDrawerProp = !this.LogInNavigationDrawerProp
+            this.show = true;
+        },
+        hideOverlay(){
+            this.show = false;
         }
     },
     computed:{
-        ...mapGetters(['cartProductsGetter', 'favouriteProductsGetter'])
+        ...mapGetters(['cartProductsGetter', 'favouriteProductsGetter', 'editedProductGetter'])
     },
     created(){
         this.getAllProducts()
+    },
+    watch:{
+        editedProductGetter(newVal, oldVal){
+            if(newVal !== oldVal){
+                this.show = true;
+            }
+        }
     }
 }
 </script>

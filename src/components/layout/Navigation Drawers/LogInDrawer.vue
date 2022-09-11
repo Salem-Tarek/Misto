@@ -105,11 +105,35 @@
                 <h2 class="mx-3 display-1">Hi, <span class="myColor"> {{ loggedUserData.username }} </span></h2>
                 <div class="dividerLine"></div>
             </v-list-item>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title class="d-flex align-center justify-center">
+                        <v-icon large left>mdi-monitor-dashboard</v-icon>
+                        <h2>Dashboard</h2>
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
             <v-list-item class="justify-center">
-                <v-list-item-action>
-                    <v-btn to="/dashboard">
-                        <v-icon left>mdi-monitor-dashboard</v-icon>
-                        <span>Dashboard</span>
+                <v-list-item-action class="ma-0">
+                    <v-btn @click="$emit('addProduct')">
+                        <v-icon left>mdi-plus-thick</v-icon>
+                        <span>Add New Product</span>
+                    </v-btn>
+                </v-list-item-action>
+            </v-list-item>
+            <v-list-item class="justify-center">
+                <v-list-item-action class="ma-0">
+                    <v-btn to="/all-products">
+                        <v-icon left>mdi-view-dashboard-edit</v-icon>
+                        <span>All Products</span>
+                    </v-btn>
+                </v-list-item-action>
+            </v-list-item>
+            <v-list-item class="justify-center">
+                <v-list-item-action class="ma-0">
+                    <v-btn @click="resetProducts">
+                        <v-icon left>mdi-restore</v-icon>
+                        <span>Reset Products</span>
                     </v-btn>
                 </v-list-item-action>
             </v-list-item>
@@ -148,7 +172,10 @@ export default {
             isLogIn: false,
             alertText: '',
             showAlert: false,
-            loggedUserData: {}
+            loggedUserData: {},
+
+            overlay: true,
+            zIndex: 0
         }
     },
     computed:{
@@ -185,12 +212,15 @@ export default {
         logOut(){
             this.showAlert = true;
             this.isLogIn = false;
-            this.alertText = `Logged In Successfully`
+            this.alertText = `Logged Out Successfully`
             this.loggedUserData = {};
             localStorage.setItem('mistoUser', JSON.stringify(this.loggedUserData));
             if(this.$route.path === '/dashboard'){
                 this.$router.push('/');
             }
+        },
+        resetProducts(){
+            localStorage.removeItem('mistoAllProducts')
         }
     },
     watch:{
@@ -252,7 +282,7 @@ export default {
 }
 
 .logIn-drawer .dividerLine {
-    width:70px;
+    width:50px;
     height:2px;
     background-color: #333;
 }
