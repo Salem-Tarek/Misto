@@ -40,6 +40,7 @@
                     placeholder="Email"
                     required
                     :rules="logInRules.email"
+                    value="john@gmail.com"
                     solo
                     class="mx-auto"
                     ></v-text-field>
@@ -53,6 +54,7 @@
                     required
                     :rules="logInRules.password"
                     type="password"
+                    value="m38rmF$"
                     solo
                     class="mx-auto"
                     ></v-text-field>

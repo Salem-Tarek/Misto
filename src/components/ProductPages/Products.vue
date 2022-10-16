@@ -178,6 +178,15 @@ export default {
 </script>
 
 <style>
+.fade-slide-enter, .fade-slide-leave-to {
+  opacity:0;
+  transform: translateX(-2em);
+}
+
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.3s ease;
+}
+
 .sale {
     width:50px;
     height:30px;
